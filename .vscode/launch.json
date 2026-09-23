@@ -2,18 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter: Chrome",
+      "name": "Flutter: Chrome (F5)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "deviceId": "chrome"
-    },
-    {
-      "name": "Flutter: Android",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main.dart",
-      "deviceId": "emulator-5554"
+      "cwd": "${workspaceFolder}",
+      "deviceId": "chrome",
+      "flutterMode": "debug"
     }
   ]
 }
