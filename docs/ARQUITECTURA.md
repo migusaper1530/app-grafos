@@ -1,88 +1,126 @@
 # Arquitectura de LogiVerse Core
 
 El proyecto usa una arquitectura por funcionalidades. La regla principal es
-que las pantallas muestran y capturan datos, mientras que las clases de
-dominio realizan los cálculos sin depender de Flutter.
+que la presentación captura y muestra datos, mientras que el dominio valida
+los problemas, ejecuta los algoritmos y genera los pasos sin depender de
+Flutter.
 
 ## Estructura actual
 
 ```text
 lib/
-├── main.dart                         # Punto de entrada mínimo
+├── main.dart
 ├── app/
 │   ├── app.dart                      # Widget raíz y configuración global
-│   └── app_theme.dart                # Tema compartido
+│   ├── app_theme.dart                # Temas claro y oscuro
+│   └── app_theme_controller.dart     # Estado global del modo visual
 ├── features/
 │   ├── assignment/
-│   │   └── domain/                   # Minimización y maximización
-│   │       ├── assignment_problem.dart
-│   │       ├── assignment_result.dart
-│   │       ├── assignment_solver.dart
-│   │       └── optimization_mode.dart
+│   │   ├── domain/
+│   │   │   ├── assignment_problem.dart
+│   │   │   ├── assignment_result.dart
+│   │   │   ├── assignment_solver.dart
+│   │   │   └── optimization_mode.dart
+│   │   └── presentation/
+│   │       └── assignment_matrix_screen.dart
+│   ├── northwest_corner/
+│   │   ├── domain/
+│   │   │   ├── transportation_problem.dart
+│   │   │   ├── northwest_corner_result.dart
+│   │   │   └── northwest_corner_solver.dart
+│   │   └── presentation/
+│   │       └── northwest_corner_screen.dart
 │   └── johnson/
-│       └── domain/                   # Cálculo actual de red de actividades
-│           ├── activity_network_problem.dart
-│           ├── activity_network_result.dart
-│           └── activity_network_solver.dart
-├── models/                           # Modelos del editor gráfico existente
-└── screens/                          # Presentación y edición visual existente
+│       ├── domain/
+│       │   ├── johnson_problem.dart
+│       │   ├── johnson_result.dart
+│       │   └── johnson_solver.dart
+│       └── presentation/
+│           └── johnson_matrix_screen.dart
+├── models/                           # Modelos del editor gráfico heredado
+├── screens/                          # Menú, navegación y editores heredados
+└── shared/
+    ├── persistence/                  # Importación y exportación JSON
+    └── presentation/                 # Tarjetas, controles y grafo común
 ```
 
-Las pruebas reflejan la misma organización dentro de `test/`.
+Las pruebas reflejan la misma organización dentro de `test/features/`.
+
+La aplicación inicia directamente en `MenuPrincipalScreen`. Desde allí se
+accede a los tres algoritmos principales, la ayuda, el cambio de tema y el
+editor de grafos como herramienta adicional.
 
 ## Flujo de dependencias
 
 ```text
-Pantalla → Problema de dominio → Solver → Resultado de dominio → Pantalla
+Pantalla → Problema de dominio → Solver → Resultado y pasos → Pantalla
 ```
 
-El dominio no puede importar `material.dart`, widgets, archivos ni diálogos.
-Así, los algoritmos se pueden probar con `flutter test` y también reutilizar
-en otra interfaz.
+El dominio no importa `material.dart`, widgets, archivos ni diálogos. Por eso
+los algoritmos se pueden probar de forma aislada y reutilizar en otra interfaz.
+Los objetos de resultado incluyen tanto la solución final como las matrices,
+ecuaciones y decisiones necesarias para explicar el procedimiento.
+
+`shared/presentation/algorithm_graph.dart` contiene el lienzo de nodos y
+flechas reutilizado por los tres algoritmos. Las pantallas convierten sus
+resultados de dominio en nodos y aristas; el componente compartido únicamente
+se encarga de presentarlos y no ejecuta cálculos matemáticos.
+
+## Responsabilidad de cada módulo
+
+### Asignación
+
+`AssignmentSolver` aplica el método Húngaro con la notación usada en clase.
+Para maximizar construye `B = −A`; luego obtiene los vectores `α` y `β`,
+reduce filas y columnas, cubre y ajusta ceros y calcula `Z` con los valores de
+la matriz original.
+
+### Esquina Noroeste
+
+`NorthwestCornerSolver` recorre la tabla desde la esquina superior izquierda
+para construir `G1`. Después calcula potenciales e indicadores, selecciona una
+celda entrante, forma un circuito alternado `+α/−α` y genera nuevas matrices
+hasta verificar la optimalidad. Cada iteración conserva las matrices anterior
+y posterior, el circuito, `α`, los indicadores y el valor de `Z`.
+
+### Johnson
+
+`JohnsonSolver` implementa la regla clásica para dos máquinas: selecciona el
+menor tiempo disponible, coloca el trabajo al inicio si pertenece a M1 o al
+final si pertenece a M2 y luego calcula el cronograma y el *makespan*.
 
 ## Reglas para trabajar en equipo
 
 1. Una modificación del algoritmo se hace en `features/<modulo>/domain` y
    debe incluir o actualizar una prueba.
-2. Los cambios visuales se hacen en la pantalla; allí no se implementan
-   fórmulas ni búsquedas combinatorias.
+2. Los cambios visuales se hacen en `presentation`; allí no se implementan
+   las reglas matemáticas.
 3. Los modelos de entrada y salida del algoritmo son inmutables.
-4. No se accede a `BuildContext` desde el dominio.
-5. Antes de integrar cambios se ejecutan:
+4. El dominio no accede a `BuildContext`.
+5. Los elementos comunes se extraen únicamente cuando dos o más pantallas
+   realmente los comparten.
+6. Antes de integrar cambios se ejecutan:
 
    ```powershell
-   D:\FlutterSDK\bin\dart.bat analyze lib test
-   D:\FlutterSDK\bin\flutter.bat test
+   D:\flutter_sdk\bin\dart.bat analyze lib test
+   D:\flutter_sdk\bin\flutter.bat test
+   D:\flutter_sdk\bin\flutter.bat build web
    ```
 
 ## Distribución sugerida para tres integrantes
 
-- Integrante 1: navegación, diseño, editor visual y experiencia de usuario.
+- Integrante 1: navegación, componentes compartidos y experiencia de usuario.
 - Integrante 2: asignación por minimización/maximización y sus pruebas.
-- Integrante 3: algoritmo de Johnson, validaciones y sus pruebas.
+- Integrante 3: Esquina Noroeste, Johnson y sus pruebas.
 
-Cada integrante debe trabajar en una rama distinta y unir cambios mediante
-revisión, para evitar que los tres editen al mismo tiempo las pantallas grandes.
+Cada integrante debe trabajar en una rama distinta e integrar mediante revisión
+para evitar ediciones simultáneas en las mismas pantallas.
 
-## Próxima separación recomendada
+## Código heredado
 
-Las pantallas heredadas todavía contienen diálogos, persistencia y dibujo en
-un solo archivo. El siguiente paso seguro es extraer, por funcionalidad:
-
-- `presentation/widgets/` para el lienzo, paneles y diálogos;
-- `presentation/<feature>_controller.dart` para el estado de la pantalla;
-- `data/` para importar y exportar JSON;
-- `shared/graph_editor/` para las piezas visuales realmente comunes.
-
-No conviene crear una clase común gigantesca para los tres módulos: se debe
-compartir solamente el editor visual y la persistencia, no las reglas de cada
-algoritmo.
-
-## Observación funcional importante
-
-La pantalla llamada `JohnsonScreen` actualmente modela una red de actividades
-y calcula tiempos tempranos, tardíos, holguras y ruta crítica. Eso corresponde
-a CPM/PERT. La regla clásica de Johnson, descrita en el menú, ordena trabajos
-en dos máquinas para minimizar el *makespan*. Antes de la entrega se debe
-confirmar cuál de los dos métodos exige el docente; si exige Johnson clásico,
-esa pantalla necesita un modelo de trabajos y tiempos por máquina.
+Los editores gráficos anteriores y la implementación de red de actividades
+CPM/PERT siguen en `screens/` y en los archivos `activity_network_*`. Se
+mantienen para no perder trabajo previo, pero no forman parte de las rutas
+activas de Asignación, Esquina Noroeste ni Johnson. Una limpieza posterior
+puede separarlos como otra funcionalidad o eliminarlos después de confirmar
+que el docente no los requiere.
