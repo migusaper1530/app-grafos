@@ -1320,12 +1320,14 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                               size: 20,
                                             ),
                                             const SizedBox(width: 8),
-                                            Text(
-                                              'Resultado Óptimo ($tipoOptimizacion)',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.successText,
-                                                fontSize: 16,
+                                            Expanded(
+                                              child: Text(
+                                                'Resultado Óptimo ($tipoOptimizacion)',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.successText,
+                                                  fontSize: 16,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1426,99 +1428,155 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       );
     }
 
-    int filas = origenes.length;
-    int colsCount = destinos.length;
-    List<List<String>> matrizValores = List.generate(
-      filas,
-      (i) => List.filled(colsCount, '-'),
+    final size = max(origenes.length, destinos.length);
+    final dummyRows = size - origenes.length;
+    final dummyColumns = size - destinos.length;
+    final matrixValues = List.generate(
+      size,
+      (i) => List.generate(
+        size,
+        (j) => i >= origenes.length || j >= destinos.length ? '0' : '-',
+      ),
     );
 
-    for (int i = 0; i < filas; i++) {
-      for (int j = 0; j < colsCount; j++) {
-        for (var c in conexiones) {
-          if ((c.nodoA == origenes[i].id && c.nodoB == destinos[j].id) ||
-              (c.nodoA == destinos[j].id && c.nodoB == origenes[i].id)) {
-            matrizValores[i][j] = c.peso.toString();
+    for (int i = 0; i < origenes.length; i++) {
+      for (int j = 0; j < destinos.length; j++) {
+        for (final connection in conexiones) {
+          if ((connection.nodoA == origenes[i].id &&
+                  connection.nodoB == destinos[j].id) ||
+              (connection.nodoA == destinos[j].id &&
+                  connection.nodoB == origenes[i].id)) {
+            matrixValues[i][j] = connection.peso.toString();
             break;
           }
         }
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          headingRowHeight: 36,
-          dataRowMinHeight: 32,
-          dataRowMaxHeight: 36,
-          columnSpacing: 16,
-          horizontalMargin: 12,
-          headingRowColor: WidgetStateProperty.all(AppColors.primarySoft),
-          columns: [
-            const DataColumn(
-              label: Text(
-                'Origen \\ Dest',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 11,
-                  color: AppColors.textMuted,
-                ),
-              ),
-            ),
-            ...destinos.map(
-              (nodo) => DataColumn(
-                label: Text(
-                  nodo.nombre,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ),
-          ],
-          rows: List.generate(filas, (i) {
-            return DataRow(
-              cells: [
-                DataCell(
-                  Text(
-                    origenes[i].nombre,
-                    style: const TextStyle(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              headingRowHeight: 36,
+              dataRowMinHeight: 32,
+              dataRowMaxHeight: 36,
+              columnSpacing: 16,
+              horizontalMargin: 12,
+              headingRowColor: WidgetStateProperty.all(AppColors.primarySoft),
+              columns: [
+                const DataColumn(
+                  label: Text(
+                    'Origen \\ Dest',
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 11,
-                      color: AppColors.textSecondary,
+                      color: AppColors.textMuted,
                     ),
                   ),
                 ),
-                ...List.generate(colsCount, (j) {
-                  final val = matrizValores[i][j];
-                  return DataCell(
-                    Text(
-                      val,
+                ...List.generate(size, (j) {
+                  final isDummy = j >= destinos.length;
+                  return DataColumn(
+                    label: Text(
+                      isDummy
+                          ? 'Destino ficticio ${j - destinos.length + 1}'
+                          : destinos[j].nombre,
                       style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontStyle: isDummy
+                            ? FontStyle.italic
+                            : FontStyle.normal,
                         fontSize: 11,
-                        fontWeight: val == '-'
-                            ? FontWeight.normal
-                            : FontWeight.bold,
-                        color: val == '-'
-                            ? const Color(0xFF94A3B8)
-                            : AppColors.text,
+                        color: isDummy
+                            ? AppColors.warningText
+                            : AppColors.primary,
                       ),
                     ),
                   );
                 }),
               ],
-            );
-          }),
+              rows: List.generate(size, (i) {
+                final isDummyRow = i >= origenes.length;
+                return DataRow(
+                  color: isDummyRow
+                      ? WidgetStateProperty.all(AppColors.warningSoft)
+                      : null,
+                  cells: [
+                    DataCell(
+                      Text(
+                        isDummyRow
+                            ? 'Origen ficticio ${i - origenes.length + 1}'
+                            : origenes[i].nombre,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: isDummyRow
+                              ? FontStyle.italic
+                              : FontStyle.normal,
+                          fontSize: 11,
+                          color: isDummyRow
+                              ? AppColors.warningText
+                              : AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                    ...List.generate(size, (j) {
+                      final isDummy = isDummyRow || j >= destinos.length;
+                      final value = matrixValues[i][j];
+                      return DataCell(
+                        Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: value == '-'
+                                ? FontWeight.normal
+                                : FontWeight.bold,
+                            color: isDummy
+                                ? AppColors.warningText
+                                : value == '-'
+                                ? AppColors.textMuted
+                                : AppColors.text,
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                );
+              }),
+            ),
+          ),
         ),
-      ),
+        if (dummyRows > 0 || dummyColumns > 0) ...[
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.warningSoft,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              dummyRows > 0
+                  ? '${dummyRows == 1 ? 'Se agrega 1 fila ficticia' : 'Se agregan $dummyRows filas ficticias'} '
+                        'con costo 0 para completar la matriz de $size × $size.'
+                  : '${dummyColumns == 1 ? 'Se agrega 1 columna ficticia' : 'Se agregan $dummyColumns columnas ficticias'} '
+                        'con costo 0 para completar la matriz de $size × $size.',
+              style: const TextStyle(
+                color: AppColors.warningText,
+                fontSize: 12,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
