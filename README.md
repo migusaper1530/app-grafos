@@ -6,6 +6,8 @@ resolver problemas de investigación de operaciones.
 ## Funcionalidades
 
 - Editor visual de nodos y conexiones.
+- Selection Sort, Insertion Sort, Merge Sort y Shell Sort con visualización paso a paso,
+  orden ascendente/descendente y conteo de operaciones.
 - Problema de asignación por minimización.
 - Problema de asignación por maximización.
 - Red de actividades, tiempos tempranos y tardíos, holguras y ruta crítica.

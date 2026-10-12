@@ -6,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
+import '../app/app_theme.dart';
+import '../shared/widgets/algorithm_scaffold.dart';
 import '../models/nodo.dart';
 import '../models/conexion.dart';
 import '../shared/persistence/graph_document.dart';
@@ -56,7 +58,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('✨ ¡Guardado exitoso en Descargas: $nombre.json!'),
-            backgroundColor: const Color(0xFF10B981),
+            backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -87,17 +89,19 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
-            Icon(Icons.save_rounded, color: Color(0xFF6366F1), size: 24),
+            Icon(Icons.save_rounded, color: AppColors.primary, size: 24),
             SizedBox(width: 12),
-            Text(
-              'Guardar Estructura del Grafo',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Guardar Estructura del Grafo',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -113,7 +117,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                 ),
               ),
               const SizedBox(height: 8),
@@ -123,18 +127,18 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   hintText: 'ej. grafo_red_social',
                   prefixIcon: const Icon(
                     Icons.description_outlined,
-                    color: Color(0xFF64748B),
+                    color: AppColors.textMuted,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                    borderSide: const BorderSide(color: AppColors.border),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                    borderSide: const BorderSide(color: AppColors.border),
                   ),
                   filled: true,
-                  fillColor: const Color(0xFFF8FAFC),
+                  fillColor: AppColors.background,
                 ),
               ),
               const SizedBox(height: 16),
@@ -143,16 +147,16 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                 ),
               ),
               const SizedBox(height: 8),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9),
+                    color: AppColors.surfaceMuted,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: TextField(
                     controller: jsonController,
@@ -161,7 +165,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                     style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
-                      color: Color(0xFF334155),
+                      color: AppColors.textSecondary,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -179,7 +183,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -187,7 +191,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
           FilledButton.icon(
             onPressed: guardarEnDescargas,
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -231,7 +235,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('✨ ¡Grafo cargado exitosamente al lienzo!'),
-          backgroundColor: const Color(0xFF10B981),
+          backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -251,21 +255,23 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
             Icon(
               Icons.auto_stories_rounded,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
               size: 28,
             ),
             SizedBox(width: 14),
-            Text(
-              'Manual y Guía de Uso del Sistema',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Manual y Guía de Uso del Sistema',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -308,7 +314,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
           FilledButton(
             onPressed: () => Navigator.pop(context),
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -335,10 +341,10 @@ class _GrafoScreenState extends State<GrafoScreen> {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: const Color(0xFFEEF2FF),
+            color: AppColors.primarySoft,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: const Color(0xFF6366F1), size: 22),
+          child: Icon(icon, color: AppColors.primary, size: 22),
         ),
         const SizedBox(width: 14),
         Expanded(
@@ -350,7 +356,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.5,
-                  color: Color(0xFF1E293B),
+                  color: AppColors.text,
                 ),
               ),
               const SizedBox(height: 6),
@@ -358,7 +364,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 descripcion,
                 style: const TextStyle(
                   fontSize: 13,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                   height: 1.5,
                 ),
               ),
@@ -375,16 +381,18 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
-            Icon(Icons.add_circle_outline_rounded, color: Color(0xFF6366F1)),
+            Icon(Icons.add_circle_outline_rounded, color: AppColors.primary),
             SizedBox(width: 10),
-            Text(
-              'Nuevo Vértice',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Nuevo Vértice',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -396,18 +404,18 @@ class _GrafoScreenState extends State<GrafoScreen> {
             labelText: 'Nombre o etiqueta del nodo',
             prefixIcon: const Icon(
               Icons.radio_button_checked,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -416,14 +424,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -457,23 +465,25 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: Row(
           children: [
-            const Icon(Icons.settings_outlined, color: Color(0xFF6366F1)),
+            const Icon(Icons.settings_outlined, color: AppColors.primary),
             const SizedBox(width: 10),
-            Text(
-              'Nodo: ${nodo.nombre}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Nodo: ${nodo.nombre}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
         ),
         content: const Text(
           'Selecciona una opción de gestión para este elemento:',
-          style: TextStyle(color: Color(0xFF475569)),
+          style: TextStyle(color: AppColors.textMuted),
         ),
         actions: [
           TextButton(
@@ -494,14 +504,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -526,30 +536,27 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Editar Nombre del Nodo',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: TextField(
           controller: nombreController,
           autofocus: true,
           decoration: InputDecoration(
             labelText: 'Nuevo Nombre',
-            prefixIcon: const Icon(Icons.edit, color: Color(0xFF6366F1)),
+            prefixIcon: const Icon(Icons.edit, color: AppColors.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -558,14 +565,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -629,10 +636,10 @@ class _GrafoScreenState extends State<GrafoScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1).withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color(0xFF6366F1).withValues(alpha: 0.4),
+                        color: AppColors.primary.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -658,10 +665,10 @@ class _GrafoScreenState extends State<GrafoScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                      color: AppColors.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                        color: AppColors.success.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -679,7 +686,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               const Text(
                 'Configurar Enlace',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.text,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -690,7 +697,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.text,
                   fontWeight: FontWeight.w600,
                 ),
                 decoration: InputDecoration(
@@ -712,7 +719,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: const BorderSide(
-                      color: Color(0xFF6366F1),
+                      color: AppColors.primary,
                       width: 2,
                     ),
                   ),
@@ -756,7 +763,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                             ),
                           ),
                           value: 'sin_direccion',
-                          activeColor: Color(0xFF6366F1),
+                          activeColor: AppColors.primary,
                         ),
                         Divider(
                           height: 1,
@@ -772,7 +779,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                             ),
                           ),
                           value: 'unidireccional',
-                          activeColor: Color(0xFF6366F1),
+                          activeColor: AppColors.primary,
                         ),
                       ],
                     ),
@@ -802,7 +809,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   const SizedBox(width: 12),
                   FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF6366F1),
+                      backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 12,
@@ -811,8 +818,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 4,
-                      shadowColor: const Color(0xFF6366F1)
-                          .withValues(alpha: 0.5),
+                      shadowColor: AppColors.primary.withValues(alpha: 0.5),
                     ),
                     onPressed: () {
                       final int pesoFinal =
@@ -837,7 +843,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                       'Conectar Arista',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.background,
                       ),
                     ),
                   ),
@@ -855,17 +861,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Eliminar Vértice',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: Text(
           '¿Deseas eliminar el nodo "${nodo.nombre}" y todas sus conexiones asociadas?',
-          style: const TextStyle(color: Color(0xFF475569)),
+          style: const TextStyle(color: AppColors.textMuted),
         ),
         actions: [
           TextButton(
@@ -873,7 +876,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -910,17 +913,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Eliminar Conexión',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: const Text(
           '¿Estás seguro de que deseas eliminar esta arista?',
-          style: TextStyle(color: Color(0xFF475569)),
+          style: TextStyle(color: AppColors.textMuted),
         ),
         actions: [
           TextButton(
@@ -928,7 +928,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -962,13 +962,10 @@ class _GrafoScreenState extends State<GrafoScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Editar Conexión',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: TextField(
           controller: pesoController,
@@ -978,18 +975,18 @@ class _GrafoScreenState extends State<GrafoScreen> {
             labelText: 'Nuevo Peso',
             prefixIcon: const Icon(
               Icons.line_weight_rounded,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -1011,14 +1008,14 @@ class _GrafoScreenState extends State<GrafoScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -1146,183 +1143,138 @@ class _GrafoScreenState extends State<GrafoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEEF2FF),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(
-                Icons.hub_rounded,
-                color: Color(0xFF6366F1),
-                size: 22,
+    return AlgorithmScaffold(
+      accent: AppColors.graph,
+      title: 'Redes y Grafos',
+      icon: Icons.hub_rounded,
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              mostrarMatriz = !mostrarMatriz;
+            });
+          },
+          icon: Icon(
+            mostrarMatriz ? Icons.close_rounded : Icons.grid_view_rounded,
+            color: AppColors.primary,
+          ),
+          tooltip: mostrarMatriz ? 'Ocultar matriz' : 'Mostrar matriz',
+        ),
+        PopupMenuButton<String>(
+          tooltip: 'Más opciones',
+          onSelected: (value) {
+            switch (value) {
+              case 'guardar':
+                mostrarGuardarJson();
+              case 'cargar':
+                cargarArchivoJson();
+              case 'ayuda':
+                mostrarAyuda();
+            }
+          },
+          itemBuilder: (context) => const [
+            PopupMenuItem(
+              value: 'guardar',
+              child: ListTile(
+                leading: Icon(Icons.save_alt_rounded),
+                title: Text('Guardar'),
               ),
             ),
-            const SizedBox(width: 12),
-            const Flexible(
-              child: Text(
-                'Editor de Grafos Pro',
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Color(0xFF1E293B),
-                ),
+            PopupMenuItem(
+              value: 'cargar',
+              child: ListTile(
+                leading: Icon(Icons.folder_open_rounded),
+                title: Text('Cargar'),
+              ),
+            ),
+            PopupMenuItem(
+              value: 'ayuda',
+              child: ListTile(
+                leading: Icon(Icons.help_outline_rounded),
+                title: Text('Ayuda'),
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                mostrarMatriz = !mostrarMatriz;
-              });
-            },
-            icon: Icon(
-              mostrarMatriz ? Icons.close_rounded : Icons.grid_view_rounded,
-              color: const Color(0xFF6366F1),
-            ),
-            tooltip: mostrarMatriz ? 'Ocultar matriz' : 'Mostrar matriz',
-          ),
-          PopupMenuButton<String>(
-            tooltip: 'Más opciones',
-            onSelected: (value) {
-              switch (value) {
-                case 'guardar':
-                  mostrarGuardarJson();
-                case 'cargar':
-                  cargarArchivoJson();
-                case 'ayuda':
-                  mostrarAyuda();
-              }
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 'guardar',
-                child: ListTile(
-                  leading: Icon(Icons.save_alt_rounded),
-                  title: Text('Guardar'),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'cargar',
-                child: ListTile(
-                  leading: Icon(Icons.folder_open_rounded),
-                  title: Text('Cargar'),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'ayuda',
-                child: ListTile(
-                  leading: Icon(Icons.help_outline_rounded),
-                  title: Text('Ayuda'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 4),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(color: const Color(0xFFE2E8F0), height: 1),
-        ),
-      ),
+        const SizedBox(width: 4),
+      ],
       body: Column(
         children: [
           Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Listener(
-                    onPointerDown: (event) {
-                      if (event.buttons == kSecondaryButton) {
-                        final nodo = obtenerNodoEnPosicion(event.localPosition);
-                        if (nodo != null) {
-                          mostrarOpcionesNodo(nodo);
-                        }
+            child: AlgorithmWorkspace(
+              isEmpty: nodos.isEmpty,
+              accent: AppColors.graph,
+              emptyIcon: Icons.hub_outlined,
+              emptyTitle: 'Construye tu primera red',
+              canvas: Listener(
+                onPointerDown: (event) {
+                  if (event.buttons == kSecondaryButton) {
+                    final nodo = obtenerNodoEnPosicion(event.localPosition);
+                    if (nodo != null) {
+                      mostrarOpcionesNodo(nodo);
+                    }
+                  }
+                },
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    final nodo = obtenerNodoEnPosicion(details.localPosition);
+                    if (nodo != null) {
+                      if (nodoOrigen == null) {
+                        setState(() => nodoOrigen = nodo);
+                      } else {
+                        conectarNodos(nodo);
                       }
-                    },
-                    child: GestureDetector(
-                      onTapDown: (details) {
-                        final nodo = obtenerNodoEnPosicion(
-                          details.localPosition,
-                        );
-                        if (nodo != null) {
-                          if (nodoOrigen == null) {
-                            setState(() => nodoOrigen = nodo);
-                          } else {
-                            conectarNodos(nodo);
-                          }
-                        } else {
-                          final conexion = obtenerConexionEnPosicion(
-                            details.localPosition,
-                          );
-                          if (conexion != null) {
-                            mostrarOpcionesConexion(conexion);
-                          } else {
-                            agregarNodo(details.localPosition);
-                          }
-                        }
-                      },
-                      onDoubleTapDown: (details) {
-                        final nodo = obtenerNodoEnPosicion(
-                          details.localPosition,
-                        );
-                        if (nodo != null) {
-                          mostrarOpcionesNodo(nodo);
-                        }
-                      },
-                      onLongPressStart: (details) {
-                        final nodo = obtenerNodoEnPosicion(
-                          details.localPosition,
-                        );
-                        if (nodo != null) {
-                          mostrarOpcionesNodo(nodo);
-                        }
-                      },
-                      onPanStart: (details) {
-                        final nodo = obtenerNodoEnPosicion(
-                          details.localPosition,
-                        );
-                        if (nodo != null) {
-                          nodoDragging = nodo;
-                        }
-                      },
-                      onPanUpdate: (details) {
-                        if (nodoDragging != null) {
-                          setState(() {
-                            nodoDragging!.posicion += details.delta;
-                          });
-                        }
-                      },
-                      onPanEnd: (details) {
-                        nodoDragging = null;
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: CustomPaint(
-                          painter: GrafoPainter(nodos, conexiones, nodoOrigen),
-                          size: Size.infinite,
-                        ),
-                      ),
+                    } else {
+                      final conexion = obtenerConexionEnPosicion(
+                        details.localPosition,
+                      );
+                      if (conexion != null) {
+                        mostrarOpcionesConexion(conexion);
+                      } else {
+                        agregarNodo(details.localPosition);
+                      }
+                    }
+                  },
+                  onDoubleTapDown: (details) {
+                    final nodo = obtenerNodoEnPosicion(details.localPosition);
+                    if (nodo != null) {
+                      mostrarOpcionesNodo(nodo);
+                    }
+                  },
+                  onLongPressStart: (details) {
+                    final nodo = obtenerNodoEnPosicion(details.localPosition);
+                    if (nodo != null) {
+                      mostrarOpcionesNodo(nodo);
+                    }
+                  },
+                  onPanStart: (details) {
+                    final nodo = obtenerNodoEnPosicion(details.localPosition);
+                    if (nodo != null) {
+                      nodoDragging = nodo;
+                    }
+                  },
+                  onPanUpdate: (details) {
+                    if (nodoDragging != null) {
+                      setState(() {
+                        nodoDragging!.posicion += details.delta;
+                      });
+                    }
+                  },
+                  onPanEnd: (details) {
+                    nodoDragging = null;
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: CustomPaint(
+                      painter: GrafoPainter(nodos, conexiones, nodoOrigen),
+                      size: Size.infinite,
                     ),
                   ),
                 ),
-                if (mostrarMatriz) ...[
-                  Container(width: 1, color: const Color(0xFFE2E8F0)),
-                  SizedBox(
-                    width: 440,
-                    child: Container(
-                      color: Colors.white,
+              ),
+              panel: mostrarMatriz
+                  ? Container(
+                      color: AppColors.surface,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -1330,23 +1282,25 @@ class _GrafoScreenState extends State<GrafoScreen> {
                             padding: const EdgeInsets.all(20),
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Color(0xFFE2E8F0)),
+                                bottom: BorderSide(color: AppColors.border),
                               ),
                             ),
                             child: const Row(
                               children: [
                                 Icon(
                                   Icons.analytics_outlined,
-                                  color: Color(0xFF6366F1),
+                                  color: AppColors.primary,
                                   size: 22,
                                 ),
                                 SizedBox(width: 10),
-                                Text(
-                                  'Matriz de Adyacencia y Grados',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1E293B),
+                                Expanded(
+                                  child: Text(
+                                    'Matriz de Adyacencia y Grados',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.text,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1369,7 +1323,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                                         const Text(
                                           'No hay nodos creados aún',
                                           style: TextStyle(
-                                            color: Color(0xFF64748B),
+                                            color: AppColors.textMuted,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,
                                           ),
@@ -1395,66 +1349,20 @@ class _GrafoScreenState extends State<GrafoScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              ],
+                    )
+                  : null,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () => setState(() {
-                    nodos.clear();
-                    conexiones.clear();
-                    nodoOrigen = null;
-                  }),
-                  icon: const Icon(
-                    Icons.delete_sweep_rounded,
-                    size: 18,
-                    color: Color(0xFF64748B),
-                  ),
-                  label: const Text(
-                    'Limpiar lienzo',
-                    style: TextStyle(
-                      color: Color(0xFF64748B),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFCBD5E1)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Nodos: ${nodos.length}   •   Conexiones: ${conexiones.length}',
-                    style: const TextStyle(
-                      color: Color(0xFF475569),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: AlgorithmCanvasControls(
+              onClear: () => setState(() {
+                nodos.clear();
+                conexiones.clear();
+                nodoOrigen = null;
+              }),
+              nodeCount: nodos.length,
+              connectionCount: conexiones.length,
             ),
           ),
         ],
@@ -1507,7 +1415,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 '• Vértice "${nodos[i].nombre}":',
                 style: const TextStyle(
                   fontSize: 13,
-                  color: Color(0xFF334155),
+                  color: AppColors.textSecondary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1517,7 +1425,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   vertical: 3,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEEF2FF),
+                  color: AppColors.primarySoft,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -1525,7 +1433,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   style: const TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF6366F1),
+                    color: AppColors.primary,
                   ),
                 ),
               ),
@@ -1542,9 +1450,9 @@ class _GrafoScreenState extends State<GrafoScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1554,7 +1462,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
-              color: Color(0xFF1E293B),
+              color: AppColors.text,
             ),
           ),
           const SizedBox(height: 4),
@@ -1563,7 +1471,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             style: TextStyle(
               fontSize: 12,
               fontStyle: FontStyle.italic,
-              color: Color(0xFF64748B),
+              color: AppColors.textMuted,
             ),
           ),
           const Divider(height: 20),
@@ -1577,7 +1485,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 13.5,
-                  color: Color(0xFF0F172A),
+                  color: AppColors.text,
                 ),
               ),
               Container(
@@ -1586,7 +1494,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1),
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -1594,7 +1502,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    color: Colors.white,
+                    color: AppColors.text,
                   ),
                 ),
               ),
@@ -1641,7 +1549,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             node.nombre,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
           ),
         ),
@@ -1652,10 +1560,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
         padding: EdgeInsets.all(10.0),
         child: Text(
           'Suma',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0F172A),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
       ),
     );
@@ -1664,10 +1569,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
         padding: EdgeInsets.all(10.0),
         child: Text(
           'Out',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0F172A),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
       ),
     );
@@ -1684,7 +1586,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
             nodos[i].nombre,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
           ),
         ),
@@ -1704,9 +1606,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               child: Text(
                 val.toString(),
                 style: TextStyle(
-                  color: val == 0
-                      ? const Color(0xFF94A3B8)
-                      : const Color(0xFF0F172A),
+                  color: val == 0 ? const Color(0xFF94A3B8) : AppColors.text,
                   fontWeight: val == 0 ? FontWeight.normal : FontWeight.bold,
                 ),
               ),
@@ -1722,7 +1622,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               '$sumaFila',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF6366F1),
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -1736,7 +1636,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               '$cantFila',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF6366F1),
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -1749,10 +1649,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
         padding: EdgeInsets.all(10.0),
         child: Text(
           'Suma',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0F172A),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
       ),
     ];
@@ -1765,7 +1662,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               '${sumaCols[j]}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF6366F1),
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -1784,10 +1681,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
         padding: EdgeInsets.all(10.0),
         child: Text(
           'In',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0F172A),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
       ),
     ];
@@ -1800,7 +1694,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
               '${cantCols[j]}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF6366F1),
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -1815,7 +1709,7 @@ class _GrafoScreenState extends State<GrafoScreen> {
     );
     filas.add(TableRow(children: filaCantCols));
     return Table(
-      border: TableBorder.all(color: const Color(0xFFE2E8F0), width: 1),
+      border: TableBorder.all(color: AppColors.border, width: 1),
       defaultColumnWidth: const IntrinsicColumnWidth(),
       children: filas,
     );
@@ -2008,7 +1902,8 @@ class GrafoPainter extends CustomPainter {
         text: TextSpan(
           text: ' ${conexion.peso} ',
           style: const TextStyle(
-            color: Color(0xFF0F172A),
+            fontFamily: 'Roboto',
+            color: AppColors.text,
             fontSize: 13,
             fontWeight: FontWeight.bold,
           ),
@@ -2023,12 +1918,12 @@ class GrafoPainter extends CustomPainter {
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(bgRect, const Radius.circular(8)),
-        Paint()..color = Colors.white,
+        Paint()..color = AppColors.surface,
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(bgRect, const Radius.circular(8)),
         Paint()
-          ..color = const Color(0xFFCBD5E1)
+          ..color = AppColors.border
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1,
       );
@@ -2047,13 +1942,15 @@ class GrafoPainter extends CustomPainter {
       canvas.drawCircle(
         nodo.posicion,
         26,
-        Paint()..color = esOrigen ? const Color(0xFFEEF2FF) : Colors.white,
+        Paint()..color = esOrigen ? AppColors.primarySoft : AppColors.surface,
       );
       canvas.drawCircle(
         nodo.posicion,
         26,
         Paint()
-          ..color = esOrigen ? const Color(0xFF6366F1) : const Color(0xFFCBD5E1)
+          ..color = esOrigen
+              ? AppColors.primary
+              : AppColors.graph.withValues(alpha: 0.65)
           ..style = PaintingStyle.stroke
           ..strokeWidth = esOrigen ? 3 : 1.5,
       );
@@ -2061,7 +1958,8 @@ class GrafoPainter extends CustomPainter {
         text: TextSpan(
           text: nodo.nombre,
           style: TextStyle(
-            color: esOrigen ? const Color(0xFF6366F1) : const Color(0xFF1E293B),
+            fontFamily: 'Roboto',
+            color: esOrigen ? AppColors.primary : AppColors.text,
             fontSize: 13,
             fontWeight: FontWeight.bold,
           ),

@@ -6,7 +6,10 @@ void main() {
     await tester.pumpWidget(const LogiVerseApp());
 
     expect(find.text('LogiVerse Core'), findsOneWidget);
-    expect(find.text('Análisis de Algoritmos'), findsOneWidget);
-    expect(find.text('Ver Algoritmos'), findsOneWidget);
+    expect(
+      find.text('Análisis de\nAlgoritmos', findRichText: true),
+      findsOneWidget,
+    );
+    expect(find.text('Explorar Algoritmos'), findsOneWidget);
   });
 }
