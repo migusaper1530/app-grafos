@@ -6,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
+import '../app/app_theme.dart';
+import '../shared/widgets/algorithm_scaffold.dart';
 import '../features/assignment/domain/assignment_problem.dart';
 import '../features/assignment/domain/assignment_solver.dart';
 import '../features/assignment/domain/optimization_mode.dart';
@@ -68,21 +70,23 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
             Icon(
               Icons.help_outline_rounded,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
               size: 24,
             ),
             SizedBox(width: 12),
-            Text(
-              'Manual de Uso - Asignación',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Manual de Uso - Asignación',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -123,7 +127,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
         actions: [
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -167,7 +171,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('✨ ¡Guardado exitoso en Descargas: $nombre.json!'),
-            backgroundColor: const Color(0xFF10B981),
+            backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -199,17 +203,19 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
-            Icon(Icons.save_rounded, color: Color(0xFF6366F1), size: 24),
+            Icon(Icons.save_rounded, color: AppColors.primary, size: 24),
             SizedBox(width: 12),
-            Text(
-              'Guardar Problema de Asignación',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Guardar Problema de Asignación',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -225,7 +231,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                 ),
               ),
               const SizedBox(height: 8),
@@ -235,18 +241,18 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                   hintText: 'ej. asignacion_personal',
                   prefixIcon: const Icon(
                     Icons.description_outlined,
-                    color: Color(0xFF64748B),
+                    color: AppColors.textMuted,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                    borderSide: const BorderSide(color: AppColors.border),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                    borderSide: const BorderSide(color: AppColors.border),
                   ),
                   filled: true,
-                  fillColor: const Color(0xFFF8FAFC),
+                  fillColor: AppColors.background,
                 ),
               ),
               const SizedBox(height: 16),
@@ -255,16 +261,16 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                 ),
               ),
               const SizedBox(height: 8),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9),
+                    color: AppColors.surfaceMuted,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: TextField(
                     controller: jsonController,
@@ -273,7 +279,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                     style: const TextStyle(
                       fontFamily: 'monospace',
                       fontSize: 12,
-                      color: Color(0xFF334155),
+                      color: AppColors.textSecondary,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -291,7 +297,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -299,7 +305,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
           FilledButton.icon(
             onPressed: guardarEnDescargas,
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -349,7 +355,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('✨ ¡Asignación cargada exitosamente al lienzo!'),
-          backgroundColor: const Color(0xFF10B981),
+          backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -370,16 +376,18 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Row(
           children: [
-            Icon(Icons.add_circle_outline_rounded, color: Color(0xFF6366F1)),
+            Icon(Icons.add_circle_outline_rounded, color: AppColors.primary),
             SizedBox(width: 10),
-            Text(
-              'Nuevo Vértice',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Nuevo Vértice',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
@@ -391,18 +399,18 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             labelText: 'Nombre (ej. A, B, T1, T2...)',
             prefixIcon: const Icon(
               Icons.radio_button_checked,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -411,14 +419,14 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -453,23 +461,25 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: Row(
           children: [
-            const Icon(Icons.settings_outlined, color: Color(0xFF6366F1)),
+            const Icon(Icons.settings_outlined, color: AppColors.primary),
             const SizedBox(width: 10),
-            Text(
-              'Nodo: ${nodo.nombre}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+            Expanded(
+              child: Text(
+                'Nodo: ${nodo.nombre}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.text,
+                ),
               ),
             ),
           ],
         ),
         content: const Text(
           'Selecciona una opción de gestión:',
-          style: TextStyle(color: Color(0xFF475569)),
+          style: TextStyle(color: AppColors.textMuted),
         ),
         actions: [
           TextButton(
@@ -490,14 +500,14 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -522,30 +532,27 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Editar Nombre del Nodo',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: TextField(
           controller: nombreController,
           autofocus: true,
           decoration: InputDecoration(
             labelText: 'Nuevo Nombre',
-            prefixIcon: const Icon(Icons.edit, color: Color(0xFF6366F1)),
+            prefixIcon: const Icon(Icons.edit, color: AppColors.primary),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -554,14 +561,14 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -624,10 +631,10 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1).withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color(0xFF6366F1).withValues(alpha: 0.4),
+                        color: AppColors.primary.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -653,10 +660,10 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                      color: AppColors.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                        color: AppColors.success.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
@@ -674,7 +681,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
               const Text(
                 'Costo / Valor de Asignación',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.text,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -685,7 +692,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.text,
                   fontWeight: FontWeight.w600,
                 ),
                 decoration: InputDecoration(
@@ -707,7 +714,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: const BorderSide(
-                      color: Color(0xFF6366F1),
+                      color: AppColors.primary,
                       width: 2,
                     ),
                   ),
@@ -736,7 +743,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                   const SizedBox(width: 12),
                   FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF6366F1),
+                      backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 12,
@@ -745,8 +752,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 4,
-                      shadowColor: const Color(0xFF6366F1)
-                          .withValues(alpha: 0.5),
+                      shadowColor: AppColors.primary.withValues(alpha: 0.5),
                     ),
                     onPressed: () {
                       final int pesoFinal =
@@ -779,7 +785,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                       'Guardar Asignación',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.background,
                       ),
                     ),
                   ),
@@ -814,13 +820,10 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         title: const Text(
           'Editar Costo de Asignación',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1E293B),
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.text),
         ),
         content: TextField(
           controller: pesoController,
@@ -830,18 +833,18 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             labelText: 'Nuevo Costo',
             prefixIcon: const Icon(
               Icons.line_weight_rounded,
-              color: Color(0xFF6366F1),
+              color: AppColors.primary,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: AppColors.background,
           ),
         ),
         actions: [
@@ -863,14 +866,14 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
             child: const Text(
               'Cancelar',
               style: TextStyle(
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -1009,7 +1012,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
           content: Text(
             '✨ ¡Solución óptima calculada! Costo Total: $ultimoCostoOptimo.',
           ),
-          backgroundColor: const Color(0xFF10B981),
+          backgroundColor: AppColors.success,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -1055,275 +1058,166 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEEF2FF),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(
-                Icons.assignment_turned_in_rounded,
-                color: Color(0xFF6366F1),
-                size: 20,
+    return AlgorithmScaffold(
+      accent: AppColors.primary,
+      title: 'Método de Asignación',
+      icon: Icons.assignment_turned_in_rounded,
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              mostrarProceso = !mostrarProceso;
+            });
+          },
+          icon: Icon(
+            mostrarProceso ? Icons.close_rounded : Icons.calculate_rounded,
+            color: AppColors.primary,
+          ),
+          tooltip: mostrarProceso ? 'Ocultar matriz' : 'Mostrar matriz',
+        ),
+        PopupMenuButton<String>(
+          tooltip: 'Más opciones',
+          onSelected: (value) {
+            switch (value) {
+              case 'ayuda':
+                mostrarManualAyuda();
+              case 'guardar':
+                mostrarGuardarJson();
+              case 'cargar':
+                cargarArchivoJson();
+            }
+          },
+          itemBuilder: (context) => const [
+            PopupMenuItem(
+              value: 'guardar',
+              child: ListTile(
+                leading: Icon(Icons.save_alt_rounded),
+                title: Text('Guardar'),
               ),
             ),
-            const SizedBox(width: 10),
-            const Flexible(
-              child: Text(
-                'Método de Asignación',
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Color(0xFF1E293B),
-                ),
+            PopupMenuItem(
+              value: 'cargar',
+              child: ListTile(
+                leading: Icon(Icons.folder_open_rounded),
+                title: Text('Cargar'),
+              ),
+            ),
+            PopupMenuItem(
+              value: 'ayuda',
+              child: ListTile(
+                leading: Icon(Icons.help_outline_rounded),
+                title: Text('Manual de uso'),
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                mostrarProceso = !mostrarProceso;
-              });
-            },
-            icon: Icon(
-              mostrarProceso ? Icons.close_rounded : Icons.calculate_rounded,
-              color: const Color(0xFF6366F1),
-            ),
-            tooltip: mostrarProceso ? 'Ocultar matriz' : 'Mostrar matriz',
-          ),
-          PopupMenuButton<String>(
-            tooltip: 'Más opciones',
-            onSelected: (value) {
-              switch (value) {
-                case 'ayuda':
-                  mostrarManualAyuda();
-                case 'guardar':
-                  mostrarGuardarJson();
-                case 'cargar':
-                  cargarArchivoJson();
-              }
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 'guardar',
-                child: ListTile(
-                  leading: Icon(Icons.save_alt_rounded),
-                  title: Text('Guardar'),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'cargar',
-                child: ListTile(
-                  leading: Icon(Icons.folder_open_rounded),
-                  title: Text('Cargar'),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'ayuda',
-                child: ListTile(
-                  leading: Icon(Icons.help_outline_rounded),
-                  title: Text('Manual de uso'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 4),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(color: const Color(0xFFE2E8F0), height: 1),
-        ),
-      ),
+        const SizedBox(width: 4),
+      ],
       body: Column(
         children: [
           Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Listener(
-                        onPointerDown: (event) {
-                          if (event.buttons == kSecondaryButton) {
-                            final nodo = obtenerNodoEnPosicion(
-                              event.localPosition,
-                            );
-                            if (nodo != null) {
-                              mostrarOpcionesNodo(nodo);
-                            }
+            child: AlgorithmWorkspace(
+              isEmpty: nodos.isEmpty,
+              accent: AppColors.primary,
+              emptyIcon: Icons.assignment_outlined,
+              emptyTitle: 'Conecta recursos y tareas',
+              canvas: Stack(
+                children: [
+                  Listener(
+                    onPointerDown: (event) {
+                      if (event.buttons == kSecondaryButton) {
+                        final nodo = obtenerNodoEnPosicion(event.localPosition);
+                        if (nodo != null) {
+                          mostrarOpcionesNodo(nodo);
+                        }
+                      }
+                    },
+                    child: GestureDetector(
+                      onTapDown: (details) {
+                        final nodo = obtenerNodoEnPosicion(
+                          details.localPosition,
+                        );
+                        if (nodo != null) {
+                          if (nodoOrigen == null) {
+                            setState(() => nodoOrigen = nodo);
+                          } else {
+                            conectarNodos(nodo);
                           }
-                        },
-                        child: GestureDetector(
-                          onTapDown: (details) {
-                            final nodo = obtenerNodoEnPosicion(
-                              details.localPosition,
-                            );
-                            if (nodo != null) {
-                              if (nodoOrigen == null) {
-                                setState(() => nodoOrigen = nodo);
-                              } else {
-                                conectarNodos(nodo);
-                              }
-                            } else {
-                              final conexion = obtenerConexionEnPosicion(
-                                details.localPosition,
-                              );
-                              if (conexion != null) {
-                                mostrarOpcionesConexion(conexion);
-                              } else {
-                                agregarNodo(details.localPosition);
-                              }
-                            }
-                          },
-                          onDoubleTapDown: (details) {
-                            final nodo = obtenerNodoEnPosicion(
-                              details.localPosition,
-                            );
-                            if (nodo != null) {
-                              mostrarOpcionesNodo(nodo);
-                            }
-                          },
-                          onLongPressStart: (details) {
-                            final nodo = obtenerNodoEnPosicion(
-                              details.localPosition,
-                            );
-                            if (nodo != null) {
-                              mostrarOpcionesNodo(nodo);
-                            }
-                          },
-                          onPanStart: (details) {
-                            final nodo = obtenerNodoEnPosicion(
-                              details.localPosition,
-                            );
-                            if (nodo != null) {
-                              nodoDragging = nodo;
-                            }
-                          },
-                          onPanUpdate: (details) {
-                            if (nodoDragging != null) {
-                              setState(() {
-                                nodoDragging!.posicion += details.delta;
-                              });
-                            }
-                          },
-                          onPanEnd: (details) {
-                            nodoDragging = null;
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: CustomPaint(
-                              painter: AsignacionPainter(
-                                nodos,
-                                conexiones,
-                                nodoOrigen,
-                                idsConexionesOptimas,
-                              ),
-                              size: Size.infinite,
-                            ),
+                        } else {
+                          final conexion = obtenerConexionEnPosicion(
+                            details.localPosition,
+                          );
+                          if (conexion != null) {
+                            mostrarOpcionesConexion(conexion);
+                          } else {
+                            agregarNodo(details.localPosition);
+                          }
+                        }
+                      },
+                      onDoubleTapDown: (details) {
+                        final nodo = obtenerNodoEnPosicion(
+                          details.localPosition,
+                        );
+                        if (nodo != null) {
+                          mostrarOpcionesNodo(nodo);
+                        }
+                      },
+                      onLongPressStart: (details) {
+                        final nodo = obtenerNodoEnPosicion(
+                          details.localPosition,
+                        );
+                        if (nodo != null) {
+                          mostrarOpcionesNodo(nodo);
+                        }
+                      },
+                      onPanStart: (details) {
+                        final nodo = obtenerNodoEnPosicion(
+                          details.localPosition,
+                        );
+                        if (nodo != null) {
+                          nodoDragging = nodo;
+                        }
+                      },
+                      onPanUpdate: (details) {
+                        if (nodoDragging != null) {
+                          setState(() {
+                            nodoDragging!.posicion += details.delta;
+                          });
+                        }
+                      },
+                      onPanEnd: (details) {
+                        nodoDragging = null;
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: CustomPaint(
+                          painter: AsignacionPainter(
+                            nodos,
+                            conexiones,
+                            nodoOrigen,
+                            idsConexionesOptimas,
                           ),
+                          size: Size.infinite,
                         ),
                       ),
-                      // Botón Limpiar Lienzo Abajo a la Izquierda
-                      Positioned(
-                        bottom: 16,
-                        left: 16,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.08),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(12),
-                              onTap: limpiarTodo,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(
-                                      Icons.delete_outline_rounded,
-                                      size: 18,
-                                      color: Color(0xFFEF4444),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Limpiar lienzo',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 13,
-                                        color: Color(0xFF334155),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Contador de nodos y conexiones abajo a la derecha
-                      Positioned(
-                        bottom: 16,
-                        right: 16,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                            border: Border.all(color: const Color(0xFFE2E8F0)),
-                          ),
-                          child: Text(
-                            'Nodos: ${nodos.length} • Conexiones: ${conexiones.length}',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF64748B),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                if (mostrarProceso) ...[
-                  Container(width: 1, color: const Color(0xFFE2E8F0)),
-                  SizedBox(
-                    width: 460,
-                    child: Container(
-                      color: Colors.white,
+                  // Botón Limpiar Lienzo Abajo a la Izquierda
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                    child: AlgorithmCanvasControls(
+                      onClear: limpiarTodo,
+                      nodeCount: nodos.length,
+                      connectionCount: conexiones.length,
+                    ),
+                  ),
+                ],
+              ),
+              panel: mostrarProceso
+                  ? Container(
+                      color: AppColors.surface,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -1331,18 +1225,21 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                             padding: const EdgeInsets.all(20),
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: Color(0xFFE2E8F0)),
+                                bottom: BorderSide(color: AppColors.border),
                               ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 12,
+                              runSpacing: 8,
                               children: [
                                 const Text(
                                   'Proceso y Optimización',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                    color: Color(0xFF1E293B),
+                                    color: AppColors.text,
                                   ),
                                 ),
                                 DropdownButton<String>(
@@ -1372,7 +1269,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                               children: [
                                 FilledButton.icon(
                                   style: FilledButton.styleFrom(
-                                    backgroundColor: const Color(0xFF6366F1),
+                                    backgroundColor: AppColors.primary,
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 14,
                                     ),
@@ -1397,7 +1294,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
-                                    color: Color(0xFF1E293B),
+                                    color: AppColors.text,
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -1408,10 +1305,10 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                   Container(
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFF0FDF4),
+                                      color: AppColors.successSoft,
                                       borderRadius: BorderRadius.circular(16),
                                       border: Border.all(
-                                        color: const Color(0xFF10B981),
+                                        color: AppColors.success,
                                         width: 1.5,
                                       ),
                                     ),
@@ -1423,7 +1320,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                           children: [
                                             const Icon(
                                               Icons.verified_rounded,
-                                              color: Color(0xFF10B981),
+                                              color: AppColors.success,
                                               size: 20,
                                             ),
                                             const SizedBox(width: 8),
@@ -1431,7 +1328,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                               'Resultado Óptimo ($tipoOptimizacion)',
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFF065F46),
+                                                color: AppColors.successText,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -1443,7 +1340,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            color: Color(0xFF047857),
+                                            color: AppColors.successText,
                                           ),
                                         ),
                                         const SizedBox(height: 12),
@@ -1452,7 +1349,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 13,
-                                            color: Color(0xFF334155),
+                                            color: AppColors.textSecondary,
                                           ),
                                         ),
                                         const SizedBox(height: 6),
@@ -1465,7 +1362,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                               children: [
                                                 const Icon(
                                                   Icons.arrow_right_rounded,
-                                                  color: Color(0xFF10B981),
+                                                  color: AppColors.success,
                                                   size: 18,
                                                 ),
                                                 Expanded(
@@ -1473,7 +1370,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                                                     asig,
                                                     style: const TextStyle(
                                                       fontSize: 13,
-                                                      color: Color(0xFF1E293B),
+                                                      color: AppColors.text,
                                                     ),
                                                   ),
                                                 ),
@@ -1506,10 +1403,8 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              ],
+                    )
+                  : null,
             ),
           ),
         ],
@@ -1525,12 +1420,12 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
+          color: AppColors.surfaceMuted,
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Text(
           'Coloca nodos en el lienzo (izq: orígenes, der: destinos).',
-          style: TextStyle(color: Color(0xFF64748B), fontSize: 12),
+          style: TextStyle(color: AppColors.textMuted, fontSize: 12),
         ),
       );
     }
@@ -1556,9 +1451,9 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: AppColors.border),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -1568,7 +1463,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
           dataRowMaxHeight: 36,
           columnSpacing: 16,
           horizontalMargin: 12,
-          headingRowColor: WidgetStateProperty.all(const Color(0xFFEEF2FF)),
+          headingRowColor: WidgetStateProperty.all(AppColors.primarySoft),
           columns: [
             const DataColumn(
               label: Text(
@@ -1576,7 +1471,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 11,
-                  color: Color(0xFF475569),
+                  color: AppColors.textMuted,
                 ),
               ),
             ),
@@ -1587,7 +1482,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 11,
-                    color: Color(0xFF6366F1),
+                    color: AppColors.primary,
                   ),
                 ),
               ),
@@ -1602,7 +1497,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 11,
-                      color: Color(0xFF334155),
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ),
@@ -1618,7 +1513,7 @@ class _AsignacionScreenState extends State<AsignacionScreen> {
                             : FontWeight.bold,
                         color: val == '-'
                             ? const Color(0xFF94A3B8)
-                            : const Color(0xFF0F172A),
+                            : AppColors.text,
                       ),
                     ),
                   );
@@ -1654,14 +1549,14 @@ class _ItemAyuda extends StatelessWidget {
             width: 26,
             height: 26,
             decoration: BoxDecoration(
-              color: const Color(0xFFEEF2FF),
+              color: AppColors.primarySoft,
               borderRadius: BorderRadius.circular(8),
             ),
             alignment: Alignment.center,
             child: Text(
               numero,
               style: const TextStyle(
-                color: Color(0xFF6366F1),
+                color: AppColors.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
@@ -1677,7 +1572,7 @@ class _ItemAyuda extends StatelessWidget {
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    color: Color(0xFF1E293B),
+                    color: AppColors.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -1685,7 +1580,7 @@ class _ItemAyuda extends StatelessWidget {
                   descripcion,
                   style: const TextStyle(
                     fontSize: 12.5,
-                    color: Color(0xFF64748B),
+                    color: AppColors.textMuted,
                     height: 1.4,
                   ),
                 ),
@@ -1747,7 +1642,8 @@ class AsignacionPainter extends CustomPainter {
         final textSpan = TextSpan(
           text: ' ${conexion.peso} ',
           style: const TextStyle(
-            color: Color(0xFF1E293B),
+            fontFamily: 'Roboto',
+            color: AppColors.text,
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
@@ -1766,12 +1662,12 @@ class AsignacionPainter extends CustomPainter {
 
         canvas.drawRRect(
           RRect.fromRectAndRadius(rectBg, const Radius.circular(4)),
-          Paint()..color = Colors.white,
+          Paint()..color = AppColors.surface,
         );
         canvas.drawRRect(
           RRect.fromRectAndRadius(rectBg, const Radius.circular(4)),
           Paint()
-            ..color = const Color(0xFFCBD5E1)
+            ..color = AppColors.border
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1,
         );
@@ -1809,14 +1705,14 @@ class AsignacionPainter extends CustomPainter {
         canvas.drawLine(desdeAjustado, hastaAjustado, paintGlow);
 
         final paintGlowMid = Paint()
-          ..color = const Color(0xFF10B981).withValues(alpha: 0.8)
+          ..color = AppColors.success.withValues(alpha: 0.8)
           ..strokeWidth = 8.0
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round;
         canvas.drawLine(desdeAjustado, hastaAjustado, paintGlowMid);
 
         final paintCore = Paint()
-          ..color = Colors.white
+          ..color = AppColors.text
           ..strokeWidth = 3.5
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round;
@@ -1830,7 +1726,8 @@ class AsignacionPainter extends CustomPainter {
         final textSpan = TextSpan(
           text: ' ★ ${conexion.peso} ',
           style: const TextStyle(
-            color: Color(0xFF065F46),
+            fontFamily: 'Roboto',
+            color: AppColors.successText,
             fontSize: 12,
             fontWeight: FontWeight.w900,
           ),
@@ -1849,12 +1746,12 @@ class AsignacionPainter extends CustomPainter {
 
         canvas.drawRRect(
           RRect.fromRectAndRadius(rectBg, const Radius.circular(4)),
-          Paint()..color = const Color(0xFFD1FAE5),
+          Paint()..color = AppColors.successSoft,
         );
         canvas.drawRRect(
           RRect.fromRectAndRadius(rectBg, const Radius.circular(4)),
           Paint()
-            ..color = const Color(0xFF10B981)
+            ..color = AppColors.success
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1,
         );
@@ -1873,10 +1770,8 @@ class AsignacionPainter extends CustomPainter {
 
     for (var nodo in nodos) {
       final isOrigen = nodoOrigen?.id == nodo.id;
-      paintNodo.color = isOrigen ? const Color(0xFFEEF2FF) : Colors.white;
-      paintBorde.color = isOrigen
-          ? const Color(0xFF6366F1)
-          : const Color(0xFF475569);
+      paintNodo.color = isOrigen ? AppColors.primarySoft : AppColors.surface;
+      paintBorde.color = isOrigen ? AppColors.primary : AppColors.textMuted;
 
       canvas.drawCircle(nodo.posicion, 24, paintNodo);
       canvas.drawCircle(nodo.posicion, 24, paintBorde);
@@ -1884,7 +1779,8 @@ class AsignacionPainter extends CustomPainter {
       final textSpan = TextSpan(
         text: nodo.nombre,
         style: const TextStyle(
-          color: Color(0xFF1E293B),
+          fontFamily: 'Roboto',
+          color: AppColors.text,
           fontSize: 11,
           fontWeight: FontWeight.bold,
         ),

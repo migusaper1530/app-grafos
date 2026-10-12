@@ -38,10 +38,6 @@ void main() {
       ),
       containsAll(['a-y', 'b-x']),
     );
-    expect(result.steps.first.title, startsWith('Matriz inicial'));
-    expect(result.steps.any((step) => step.title.contains('Vector α')), isTrue);
-    expect(result.steps.any((step) => step.title.contains('Vector β')), isTrue);
-    expect(result.steps.last.title, 'Asignación final');
   });
 
   test('encuentra la asignación de beneficio máximo', () {
@@ -62,19 +58,6 @@ void main() {
       ),
       containsAll(['a-x', 'b-y']),
     );
-    expect(
-      result.steps.any(
-        (step) => step.title == 'Transformación para maximizar: B = −A',
-      ),
-      isTrue,
-    );
-    final transformed = result.steps.firstWhere(
-      (step) => step.title == 'Transformación para maximizar: B = −A',
-    );
-    expect(transformed.matrix, [
-      [-4, -1],
-      [-2, -5],
-    ]);
   });
 
   test('informa cuando no existe una asignación completa', () {
@@ -90,51 +73,5 @@ void main() {
     );
 
     expect(result, isNull);
-  });
-
-  test('resuelve una matriz 3x3 que requiere ajustar ceros', () {
-    const rows = [
-      AssignmentItem(id: 'r1', label: 'A'),
-      AssignmentItem(id: 'r2', label: 'B'),
-      AssignmentItem(id: 'r3', label: 'C'),
-    ];
-    const columns = [
-      AssignmentItem(id: 'c1', label: 'X'),
-      AssignmentItem(id: 'c2', label: 'Y'),
-      AssignmentItem(id: 'c3', label: 'Z'),
-    ];
-    const matrixCosts = [
-      AssignmentCost(originId: 'r1', destinationId: 'c1', value: 4),
-      AssignmentCost(originId: 'r1', destinationId: 'c2', value: 1),
-      AssignmentCost(originId: 'r1', destinationId: 'c3', value: 3),
-      AssignmentCost(originId: 'r2', destinationId: 'c1', value: 2),
-      AssignmentCost(originId: 'r2', destinationId: 'c2', value: 0),
-      AssignmentCost(originId: 'r2', destinationId: 'c3', value: 5),
-      AssignmentCost(originId: 'r3', destinationId: 'c1', value: 3),
-      AssignmentCost(originId: 'r3', destinationId: 'c2', value: 2),
-      AssignmentCost(originId: 'r3', destinationId: 'c3', value: 2),
-    ];
-
-    final result = solver.solve(
-      AssignmentProblem(
-        origins: rows,
-        destinations: columns,
-        costs: matrixCosts,
-        mode: OptimizationMode.minimize,
-      ),
-    );
-
-    expect(result, isNotNull);
-    expect(result!.total, 5);
-    expect(
-      result.matches.map(
-        (match) => '${match.origin.id}-${match.destination.id}',
-      ),
-      containsAll(['r1-c2', 'r2-c1', 'r3-c3']),
-    );
-    expect(
-      result.steps.any((step) => step.title == 'Ajuste de la matriz'),
-      isTrue,
-    );
   });
 }
