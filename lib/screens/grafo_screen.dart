@@ -1,9 +1,8 @@
 import 'dart:math';
-import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
 import '../app/app_theme.dart';
@@ -12,6 +11,7 @@ import '../models/nodo.dart';
 import '../models/conexion.dart';
 import '../shared/persistence/graph_document.dart';
 import '../shared/persistence/graph_document_codec.dart';
+import '../shared/persistence/json_file_exporter.dart';
 
 class GrafoScreen extends StatefulWidget {
   const GrafoScreen({super.key});
@@ -22,6 +22,7 @@ class GrafoScreen extends StatefulWidget {
 
 class _GrafoScreenState extends State<GrafoScreen> {
   static const _documentCodec = GraphDocumentCodec();
+  static const _jsonExporter = JsonFileExporter();
 
   List<Nodo> nodos = [];
   List<Conexion> conexiones = [];
@@ -37,35 +38,29 @@ class _GrafoScreenState extends State<GrafoScreen> {
 
   Future<void> guardarEnDescargas() async {
     try {
-      final nombre = nombreArchivoController.text.isNotEmpty
-          ? nombreArchivoController.text
+      final nombre = nombreArchivoController.text.trim().isNotEmpty
+          ? nombreArchivoController.text.trim()
           : 'grafo';
       final jsonString = _documentCodec.encode(
         GraphDocument(name: nombre, nodes: nodos, connections: conexiones),
       );
-      final directory = await getDownloadsDirectory();
-
+      final filename = await _jsonExporter.save(jsonString, name: nombre);
       if (!mounted) return;
-
-      if (directory != null) {
-        final filePath = '${directory.path}/$nombre.json';
-        final file = File(filePath);
-        await file.writeAsString(jsonString);
-
-        if (!mounted) return;
-
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('✨ ¡Guardado exitoso en Descargas: $nombre.json!'),
-            backgroundColor: AppColors.success,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            kIsWeb
+                ? 'Descarga iniciada: $filename'
+                : 'Archivo guardado en Descargas: $filename',
           ),
-        );
-      }
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,8 +72,8 @@ class _GrafoScreenState extends State<GrafoScreen> {
   void mostrarGuardarJson() {
     jsonController.text = _documentCodec.encode(
       GraphDocument(
-        name: nombreArchivoController.text.isNotEmpty
-            ? nombreArchivoController.text
+        name: nombreArchivoController.text.trim().isNotEmpty
+            ? nombreArchivoController.text.trim()
             : 'grafo',
         nodes: nodos,
         connections: conexiones,

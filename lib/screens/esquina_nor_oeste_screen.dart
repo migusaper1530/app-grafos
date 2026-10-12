@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
 import '../app/app_theme.dart';
@@ -14,6 +13,7 @@ import '../models/nodo.dart';
 import '../models/conexion.dart';
 import '../shared/persistence/graph_document.dart';
 import '../shared/persistence/graph_document_codec.dart';
+import '../shared/persistence/json_file_exporter.dart';
 
 class EsquinaNorOesteScreen extends StatefulWidget {
   const EsquinaNorOesteScreen({super.key});
@@ -24,6 +24,7 @@ class EsquinaNorOesteScreen extends StatefulWidget {
 
 class _EsquinaNorOesteScreenState extends State<EsquinaNorOesteScreen> {
   static const _documentCodec = GraphDocumentCodec();
+  static const _jsonExporter = JsonFileExporter();
 
   List<Nodo> nodos = [];
   List<Conexion> conexiones = [];
@@ -166,8 +167,8 @@ class _EsquinaNorOesteScreenState extends State<EsquinaNorOesteScreen> {
 
   Future<void> guardarEnDescargas() async {
     try {
-      final nombre = nombreArchivoController.text.isNotEmpty
-          ? nombreArchivoController.text
+      final nombre = nombreArchivoController.text.trim().isNotEmpty
+          ? nombreArchivoController.text.trim()
           : 'transporte';
       final jsonString = _documentCodec.encode(
         GraphDocument(
@@ -177,22 +178,23 @@ class _EsquinaNorOesteScreenState extends State<EsquinaNorOesteScreen> {
           metadata: {'ofertas': ofertas, 'demandas': demandas},
         ),
       );
-      final directory = await getDownloadsDirectory();
+      final filename = await _jsonExporter.save(jsonString, name: nombre);
       if (!mounted) return;
-
-      if (directory != null) {
-        final file = File('${directory.path}/$nombre.json');
-        await file.writeAsString(jsonString);
-        if (!mounted) return;
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✨ Archivo guardado con éxito en Descargas.'),
-            backgroundColor: AppColors.success,
-            behavior: SnackBarBehavior.floating,
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            kIsWeb
+                ? 'Descarga iniciada: $filename'
+                : 'Archivo guardado en Descargas: $filename',
           ),
-        );
-      }
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
