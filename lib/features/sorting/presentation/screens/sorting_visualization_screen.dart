@@ -240,7 +240,8 @@ class _InputDialog extends StatefulWidget {
 
 class _InputDialogState extends State<_InputDialog> {
   late TextEditingController _manualController;
-  int _randomSize = 10;
+  final _countController = TextEditingController(text: '10');
+  String? _countError;
   String? _manualError;
 
   @override
@@ -252,7 +253,17 @@ class _InputDialogState extends State<_InputDialog> {
   @override
   void dispose() {
     _manualController.dispose();
+    _countController.dispose();
     super.dispose();
+  }
+
+  void _submitRandomInput() {
+    final (count, error) = SortingValidator.parseCount(_countController.text);
+    if (error != null) {
+      setState(() => _countError = error);
+      return;
+    }
+    widget.onRandomArray(count!);
   }
 
   void _submitManualInput() {
@@ -275,7 +286,7 @@ class _InputDialogState extends State<_InputDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Números deben estar entre 1 y 100, máximo 20 elementos',
+              'Ingresa tantos números enteros como necesites, separados por comas.',
               style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
             ),
             const SizedBox(height: 16),
@@ -286,25 +297,25 @@ class _InputDialogState extends State<_InputDialog> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: Slider(
-                    value: _randomSize.toDouble(),
-                    min: 1,
-                    max: 20,
-                    divisions: 19,
-                    label: '$_randomSize',
-                    onChanged: (value) {
-                      setState(() => _randomSize = value.toInt());
-                    },
-                  ),
-                ),
-                Text('$_randomSize'),
-              ],
+            TextField(
+              key: const ValueKey('sorting-count'),
+              controller: _countController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _submitRandomInput(),
+              onChanged: (_) {
+                if (_countError != null) setState(() => _countError = null);
+              },
+              decoration: InputDecoration(
+                labelText: 'Cantidad de números',
+                helperText: 'Cantidad entera mayor que cero, sin límite fijo.',
+                helperMaxLines: 2,
+                errorText: _countError,
+                errorMaxLines: 2,
+              ),
             ),
+            const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: () => widget.onRandomArray(_randomSize),
+              onPressed: _submitRandomInput,
               child: const Text('Generar aleatorios'),
             ),
 
@@ -319,7 +330,12 @@ class _InputDialogState extends State<_InputDialog> {
             ),
             const SizedBox(height: 8),
             TextField(
+              key: const ValueKey('sorting-numbers'),
               controller: _manualController,
+              minLines: 2,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               onSubmitted: (_) => _submitManualInput(),
               onChanged: (_) {
                 if (_manualError != null) setState(() => _manualError = null);
@@ -327,7 +343,8 @@ class _InputDialogState extends State<_InputDialog> {
               decoration: InputDecoration(
                 labelText: 'Números a ordenar',
                 hintText: 'Ej: 5,3,8,1,9',
-                helperText: 'Números separados por comas',
+                helperText: 'Enteros separados por comas; admite negativos, cero y repetidos.',
+                helperMaxLines: 2,
                 errorText: _manualError,
                 errorMaxLines: 3,
               ),

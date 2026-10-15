@@ -19,60 +19,73 @@ class SortingVisualizationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final array = provider.currentArray;
+    final minValue = array.isEmpty ? 0 : array.reduce((a, b) => a < b ? a : b);
+    final maxValue = array.isEmpty ? 0 : array.reduce((a, b) => a > b ? a : b);
     return AlgorithmWorkspace(
-      canvas: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                provider.order.description,
-                style: const TextStyle(
-                  color: AppColors.sorting,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${provider.currentArray.length} elementos · ${provider.algorithm.displayName}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: AppColors.textMuted),
-              ),
-              if (provider.isComplete) ...[
-                const SizedBox(height: 12),
-                Text(
-                  'Ordenamiento completado · Big O: ${provider.executionComplexity}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.successText,
-                    fontWeight: FontWeight.w600,
+      canvas: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(24),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    provider.order.description,
+                    style: const TextStyle(
+                      color: AppColors.sorting,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
-              const SizedBox(height: 28),
-              Wrap(
-                spacing: 24,
-                runSpacing: 32,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: List.generate(
-                  provider.currentArray.length,
-                  (index) => SizedBox(
+                  const SizedBox(height: 8),
+                  Text(
+                    '${provider.currentArray.length} elementos · ${provider.algorithm.displayName}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.textMuted),
+                  ),
+                  if (provider.isComplete) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      'Ordenamiento completado · Big O: ${provider.executionComplexity}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: AppColors.successText,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+            sliver: SliverGrid.builder(
+              itemCount: array.length,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 123,
+                mainAxisExtent: 187,
+              ),
+              itemBuilder: (context, index) => Center(
+                child: Tooltip(
+                  message: '[$index]: ${array[index]}',
+                  child: SizedBox(
                     width: 75,
                     height: 155,
                     child: BowlingPinWidget(
-                      value: provider.currentArray[index],
-                      maxValue: 100,
+                      value: array[index],
+                      minValue: minValue,
+                      maxValue: maxValue,
                       color: provider.getColorForIndex(index),
                     ),
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       panel: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

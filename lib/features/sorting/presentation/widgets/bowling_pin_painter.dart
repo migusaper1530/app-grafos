@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 class BowlingPinPainter extends CustomPainter {
   final int value;
   final int maxValue;
+  final int minValue;
   final Color color;
   final double animationProgress;
 
   const BowlingPinPainter({
     required this.value,
     required this.maxValue,
+    this.minValue = 0,
     required this.color,
     this.animationProgress = 1.0,
   });
@@ -20,8 +22,15 @@ class BowlingPinPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Factor de escala dinámico según el valor (mínimo 0.75, máximo 1.15)
-    final double valueScale = maxValue > 0
-        ? 0.75 + (0.4 * (value / maxValue).clamp(0.0, 1.0))
+    final minimum = minValue.toDouble();
+    final maximum = maxValue.toDouble();
+    final double valueScale = maximum != minimum
+        ? 0.75 +
+              0.4 *
+                  ((value.toDouble() - minimum) / (maximum - minimum)).clamp(
+                    0.0,
+                    1.0,
+                  )
         : 1.0;
 
     final double w = size.width * valueScale;
@@ -160,10 +169,17 @@ class BowlingPinPainter extends CustomPainter {
     textPainter.layout();
 
     final double bellyLocalY = maxHeight * 0.62;
-    final double textX = (w / 2) - (textPainter.width / 2);
-    final double textY = bellyLocalY - (textPainter.height / 2);
 
-    textPainter.paint(canvas, Offset(textX, textY));
+    // Fit long signed values inside the pin while retaining the full tooltip.
+    final textScale = math.min(1.0, w * 0.60 / textPainter.width);
+    canvas.save();
+    canvas.translate(w / 2, bellyLocalY);
+    canvas.scale(textScale);
+    textPainter.paint(
+      canvas,
+      Offset(-textPainter.width / 2, -textPainter.height / 2),
+    );
+    canvas.restore();
 
     canvas.restore();
   }
@@ -172,6 +188,7 @@ class BowlingPinPainter extends CustomPainter {
   bool shouldRepaint(BowlingPinPainter oldDelegate) {
     return oldDelegate.value != value ||
         oldDelegate.maxValue != maxValue ||
+        oldDelegate.minValue != minValue ||
         oldDelegate.color != color ||
         oldDelegate.animationProgress != animationProgress;
   }

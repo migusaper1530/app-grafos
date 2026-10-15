@@ -5,6 +5,7 @@ import 'package:app_grafos/features/sorting/presentation/widgets/bowling_pin_pai
 class BowlingPinWidget extends StatelessWidget {
   final int value;
   final int maxValue;
+  final int minValue;
   final Color color;
   final Duration animationDuration;
 
@@ -12,6 +13,7 @@ class BowlingPinWidget extends StatelessWidget {
     super.key,
     required this.value,
     required this.maxValue,
+    this.minValue = 0,
     required this.color,
     this.animationDuration = const Duration(milliseconds: 400),
   });
@@ -40,6 +42,7 @@ class BowlingPinWidget extends StatelessWidget {
         painter: BowlingPinPainter(
           value: value,
           maxValue: maxValue,
+          minValue: minValue,
           color: color,
           animationProgress: 1.0,
         ),

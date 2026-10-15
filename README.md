@@ -24,6 +24,13 @@ ordenamiento compara los cuatro métodos con una entrada común, controles de
 reproducción, línea de tiempo y métricas al terminar. Sus turnos visuales no
 representan mediciones de velocidad real.
 
+En los cuatro ordenamientos, **Nuevo ordenamiento** permite escribir la cantidad
+que se desea generar o pegar una lista de enteros separados por comas. No hay un
+máximo fijo de elementos ni un rango de valores impuesto: se admiten negativos,
+cero y repetidos. La carrera y los archivos JSON usan las mismas reglas. La
+visualización se puede desplazar para recorrer listas largas; el tiempo y la
+memoria necesarios crecen con la entrada y con los pasos de cada algoritmo.
+
 Los módulos incluyen ayuda y archivos JSON para guardar y cargar los datos.
 En Asignación y Esquina Noroeste, calcula una solución y pulsa **Ver procedimiento
 matemático** para consultar matrices, restricciones, operaciones y el costo final.

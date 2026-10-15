@@ -2,34 +2,18 @@ import 'dart:math';
 
 /// Validates input for sorting algorithms
 class SortingValidator {
-  static const int minValue = 1;
-  static const int maxValue = 100;
-  static const int maxElements = 20;
-
-  /// Validates a list of numbers for sorting
-  /// Returns (isValid, errorMessage)
+  /// Quantity and integer values have no application-imposed upper bound.
   static (bool, String?) validateArray(List<int> numbers) {
-    if (numbers.isEmpty) {
-      return (false, 'El array no puede estar vacío');
-    }
-
-    if (numbers.length > maxElements) {
-      return (
-        false,
-        'Máximo $maxElements elementos permitidos (se proporcionaron ${numbers.length})',
-      );
-    }
-
-    for (final num in numbers) {
-      if (num < minValue || num > maxValue) {
-        return (
-          false,
-          'Todos los números deben estar entre $minValue y $maxValue (encontrado: $num)',
-        );
-      }
-    }
-
+    if (numbers.isEmpty) return (false, 'El array no puede estar vacío');
     return (true, null);
+  }
+
+  static (int?, String?) parseCount(String input) {
+    final count = int.tryParse(input.trim());
+    if (count == null || count <= 0) {
+      return (null, 'Ingresa una cantidad entera mayor que cero.');
+    }
+    return (count, null);
   }
 
   /// Parses comma-separated string into list of integers
@@ -74,15 +58,13 @@ class SortingValidator {
 
   /// Generates random array of specified size
   static List<int> generateRandomArray(int size) {
-    if (size <= 0 || size > maxElements) {
-      throw ArgumentError('Size debe estar entre 1 y $maxElements');
+    if (size <= 0) {
+      throw ArgumentError('La cantidad debe ser mayor que cero.');
     }
 
-    // Muestreo acotado: también funciona con la precisión del reloj del navegador.
-    final candidates = List.generate(
-      maxValue - minValue + 1,
-      (index) => minValue + index,
-    )..shuffle(Random());
+    // Expand the sampling range with the requested size, keeping values unique.
+    final candidates = List<int>.generate(max(100, size), (index) => index + 1)
+      ..shuffle(Random());
     return candidates.take(size).toList();
   }
 }

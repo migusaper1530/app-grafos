@@ -60,18 +60,11 @@ void main() {
         {'sentido': 'otro'},
         {'numeros': []},
         {
-          'numeros': [0, 2],
-        },
-        {
-          'numeros': [101],
-        },
-        {
           'numeros': [1.5],
         },
         {
           'numeros': ['1'],
         },
-        {'numeros': List.filled(21, 1)},
         {'velocidad': 0},
         {'velocidad': '2'},
         {'paso': -1},

@@ -101,7 +101,7 @@ class _SortingHelpDialog extends StatelessWidget {
               description:
                   'Pulsa Nuevo ordenamiento. Genera números aleatorios '
                   'o escribe una lista separada por comas, por ejemplo: 9, 2, 6. '
-                  'Puedes usar hasta 20 números, con valores entre 1 y 100.',
+                  'Puedes ingresar la cantidad de números enteros que necesites, incluidos negativos, cero y repetidos. Para generar datos aleatorios, escribe la cantidad en el cuadro de texto.',
             ),
             _HelpStep(
               number: '4',

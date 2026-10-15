@@ -21,7 +21,9 @@ class _SortingRaceScreenState extends State<SortingRaceScreen>
     with WidgetsBindingObserver {
   final _race = SortingRaceController();
   final _numbers = TextEditingController(text: '72, 18, 91, 34, 9, 56, 25, 63');
+  final _count = TextEditingController(text: '8');
   String? _error;
+  String? _countError;
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _SortingRaceScreenState extends State<SortingRaceScreen>
     WidgetsBinding.instance.removeObserver(this);
     _race.dispose();
     _numbers.dispose();
+    _count.dispose();
     super.dispose();
   }
 
@@ -55,6 +58,18 @@ class _SortingRaceScreenState extends State<SortingRaceScreen>
       setState(() => _error = error);
       return;
     }
+    _apply(numbers);
+  }
+
+  void _generate({bool? reversed}) {
+    final (count, error) = SortingValidator.parseCount(_count.text);
+    if (error != null) {
+      setState(() => _countError = error);
+      return;
+    }
+    final numbers = reversed == null
+        ? SortingValidator.generateRandomArray(count!)
+        : List<int>.generate(count!, (i) => reversed ? count - i : i + 1);
     _apply(numbers);
   }
 
@@ -146,14 +161,38 @@ class _SortingRaceScreenState extends State<SortingRaceScreen>
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        key: const ValueKey('race-numbers'),
                         controller: _numbers,
+                        minLines: 2,
+                        maxLines: 5,
+                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.newline,
                         onSubmitted: (_) => _submit(),
                         decoration: InputDecoration(
                           labelText: 'Números de la carrera',
-                          helperText: 'Hasta 20 números entre 1 y 100, separados por comas.',
+                          helperText: 'Enteros separados por comas, sin límite fijo de cantidad.',
                           helperMaxLines: 2,
                           errorText: _error,
                           errorMaxLines: 3,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        key: const ValueKey('race-count'),
+                        controller: _count,
+                        keyboardType: TextInputType.number,
+                        onSubmitted: (_) => _generate(),
+                        onChanged: (_) {
+                          if (_countError != null) {
+                            setState(() => _countError = null);
+                          }
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Cantidad de números para generar',
+                          helperText: 'Se usa para listas ordenadas, invertidas y aleatorias.',
+                          helperMaxLines: 2,
+                          errorText: _countError,
+                          errorMaxLines: 2,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -167,18 +206,15 @@ class _SortingRaceScreenState extends State<SortingRaceScreen>
                             label: const Text('Aplicar números'),
                           ),
                           OutlinedButton(
-                            onPressed: () =>
-                                _apply(List.generate(8, (i) => (i + 1) * 10)),
+                            onPressed: () => _generate(reversed: false),
                             child: const Text('Lista ordenada'),
                           ),
                           OutlinedButton(
-                            onPressed: () =>
-                                _apply(List.generate(8, (i) => (8 - i) * 10)),
+                            onPressed: () => _generate(reversed: true),
                             child: const Text('Lista invertida'),
                           ),
                           OutlinedButton.icon(
-                            onPressed: () =>
-                                _apply(SortingValidator.generateRandomArray(8)),
+                            onPressed: () => _generate(),
                             icon: const Icon(Icons.shuffle_rounded, size: 18),
                             label: const Text('Aleatorios'),
                           ),
@@ -334,6 +370,8 @@ class _RaceLane extends StatelessWidget {
     };
     final step = race.step(algorithm);
     final done = race.completed(algorithm);
+    final minimum = step.array.reduce((a, b) => a < b ? a : b).toDouble();
+    final maximum = step.array.reduce((a, b) => a > b ? a : b).toDouble();
     return FuturisticPanel(
       key: ValueKey('race-${algorithm.name}'),
       accent: accent,
@@ -364,33 +402,47 @@ class _RaceLane extends StatelessWidget {
           const SizedBox(height: 18),
           SizedBox(
             height: 112,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                for (var index = 0; index < step.array.length; index++)
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      child: AnimatedContainer(
-                        duration: MediaQuery.disableAnimationsOf(context)
-                            ? Duration.zero
-                            : const Duration(milliseconds: 70),
-                        height: 12 + step.array[index] * 0.9,
-                        decoration: BoxDecoration(
-                          color: done
-                              ? AppColors.success
-                              : (step.comparingIndex1 == index ||
-                                    step.comparingIndex2 == index)
-                              ? AppColors.comparing
-                              : accent.withValues(alpha: 0.65),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(5),
+            child: LayoutBuilder(
+              builder: (context, constraints) => ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: step.array.length,
+                itemExtent: (constraints.maxWidth / step.array.length).clamp(
+                  16.0,
+                  constraints.maxWidth,
+                ),
+                itemBuilder: (context, index) {
+                  final fraction = maximum == minimum
+                      ? 0.5
+                      : (step.array[index].toDouble() - minimum) /
+                            (maximum - minimum);
+                  return Tooltip(
+                    message: '[$index]: ${step.array[index]}',
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        child: AnimatedContainer(
+                          duration: MediaQuery.disableAnimationsOf(context)
+                              ? Duration.zero
+                              : const Duration(milliseconds: 70),
+                          height: 12 + fraction * 90,
+                          decoration: BoxDecoration(
+                            color: done
+                                ? AppColors.success
+                                : (step.comparingIndex1 == index ||
+                                      step.comparingIndex2 == index)
+                                ? AppColors.comparing
+                                : accent.withValues(alpha: 0.65),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(5),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                  );
+                },
+              ),
             ),
           ),
           const SizedBox(height: 12),

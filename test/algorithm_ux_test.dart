@@ -129,7 +129,7 @@ void main() {
     },
   );
 
-  testWidgets('el formulario muestra errores y acepta números con Enter', (
+  testWidgets('el formulario muestra errores y acepta números con el botón', (
     tester,
   ) async {
     tester.view.devicePixelRatio = 1;
@@ -149,22 +149,35 @@ void main() {
     await tester.ensureVisible(find.text('Nuevo ordenamiento'));
     await tester.tap(find.text('Nuevo ordenamiento'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), '0, 101');
+    await tester.enterText(
+      find.byKey(const ValueKey('sorting-numbers')),
+      '0, texto',
+    );
     await tester.ensureVisible(find.text('Usar estos números'));
     await tester.tap(find.text('Usar estos números'));
     await tester.pumpAndSettle();
     expect(
-      tester.widget<TextField>(find.byType(TextField)).decoration!.errorText,
+      tester
+          .widget<TextField>(find.byKey(const ValueKey('sorting-numbers')))
+          .decoration!
+          .errorText,
       isNotNull,
     );
     expect(find.byType(AlertDialog), findsOneWidget);
-    await tester.enterText(find.byType(TextField), '9, 2, 6');
+    await tester.enterText(
+      find.byKey(const ValueKey('sorting-numbers')),
+      '9, 2, 6',
+    );
     await tester.pump();
     expect(
-      tester.widget<TextField>(find.byType(TextField)).decoration!.errorText,
+      tester
+          .widget<TextField>(find.byKey(const ValueKey('sorting-numbers')))
+          .decoration!
+          .errorText,
       isNull,
     );
-    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.ensureVisible(find.text('Usar estos números'));
+    await tester.tap(find.text('Usar estos números'));
     await tester.pumpAndSettle();
     expect(find.byType(AlertDialog), findsNothing);
     expect(find.text('9 | 2 | 6'), findsOneWidget);

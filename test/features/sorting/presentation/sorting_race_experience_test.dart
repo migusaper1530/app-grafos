@@ -30,14 +30,19 @@ void main() {
         );
         await tester.pumpAndSettle();
         expect(find.textContaining('Big O:'), findsNothing);
-        await tester.enterText(find.byType(TextField), '0, 4');
+        await tester.enterText(
+          find.byKey(const ValueKey('race-numbers')),
+          'texto, 4',
+        );
+        await tester.ensureVisible(find.text('Aplicar números'));
         await tester.tap(find.text('Aplicar números'));
         await tester.pumpAndSettle();
-        expect(
-          find.textContaining('Todos los números deben estar entre'),
-          findsOneWidget,
+        expect(find.textContaining('Input inválido.'), findsOneWidget);
+        await tester.enterText(
+          find.byKey(const ValueKey('race-numbers')),
+          '9, 3, 6, 3',
         );
-        await tester.enterText(find.byType(TextField), '9, 3, 6, 3');
+        await tester.ensureVisible(find.text('Aplicar números'));
         await tester.tap(find.text('Aplicar números'));
         await tester.pumpAndSettle();
         await tester.ensureVisible(find.text('Iniciar carrera'));

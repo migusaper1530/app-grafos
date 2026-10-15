@@ -120,7 +120,10 @@ void main() {
     await tester.tap(find.text('Nuevo ordenamiento'));
     await tester.pumpAndSettle();
     expect(find.byType(AlertDialog), findsOneWidget);
-    await tester.enterText(find.byType(TextField), '9, 2, 6');
+    await tester.enterText(
+      find.byKey(const ValueKey('sorting-numbers')),
+      '9, 2, 6',
+    );
     await tester.ensureVisible(find.text('Usar estos números'));
     await tester.tap(find.text('Usar estos números'));
     await tester.pumpAndSettle();

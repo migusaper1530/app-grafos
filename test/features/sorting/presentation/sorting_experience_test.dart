@@ -59,8 +59,12 @@ void main() {
       await tester.ensureVisible(find.text('Nuevo ordenamiento'));
       await tester.tap(find.text('Nuevo ordenamiento'));
       await tester.pumpAndSettle();
-      await tester.enterText(find.byType(TextField), '3, 9, 1, 3');
-      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.enterText(
+        find.byKey(const ValueKey('sorting-numbers')),
+        '3, 9, 1, 3',
+      );
+      await tester.ensureVisible(find.text('Usar estos números'));
+      await tester.tap(find.text('Usar estos números'));
       await tester.pumpAndSettle();
       final updated = tester
           .widget<SortingVisualizationWidget>(
