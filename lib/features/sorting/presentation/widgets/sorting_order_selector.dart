@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/app_theme.dart';
-import '../../domain/sorting_order.dart';
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_order.dart';
 
 class SortingOrderSelector extends StatelessWidget {
   const SortingOrderSelector({

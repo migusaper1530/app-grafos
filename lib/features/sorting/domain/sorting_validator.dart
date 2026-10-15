@@ -1,3 +1,5 @@
+import 'dart:math';
+
 /// Validates input for sorting algorithms
 class SortingValidator {
   static const int minValue = 1;
@@ -76,18 +78,11 @@ class SortingValidator {
       throw ArgumentError('Size debe estar entre 1 y $maxElements');
     }
 
-    final random = <int>[];
-    final usedNumbers = <int>{};
-
-    while (random.length < size) {
-      final num =
-          (DateTime.now().microsecond % (maxValue - minValue + 1)) + minValue;
-      if (!usedNumbers.contains(num)) {
-        random.add(num);
-        usedNumbers.add(num);
-      }
-    }
-
-    return random;
+    // Muestreo acotado: también funciona con la precisión del reloj del navegador.
+    final candidates = List.generate(
+      maxValue - minValue + 1,
+      (index) => minValue + index,
+    )..shuffle(Random());
+    return candidates.take(size).toList();
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/app_theme.dart';
-import '../../../../shared/widgets/algorithm_scaffold.dart';
-import '../providers/sorting_visualization_provider.dart';
-import 'bowling_pin_widget.dart';
-import 'sorting_order_selector.dart';
-import 'sorting_complexity_widget.dart';
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/features/sorting/presentation/providers/sorting_visualization_provider.dart';
+import 'package:app_grafos/features/sorting/presentation/widgets/bowling_pin_widget.dart';
+import 'package:app_grafos/features/sorting/presentation/widgets/sorting_complexity_widget.dart';
+import 'package:app_grafos/features/sorting/presentation/widgets/sorting_order_selector.dart';
+import 'package:app_grafos/shared/widgets/algorithm_scaffold.dart';
 
 class SortingVisualizationWidget extends StatelessWidget {
   final SortingVisualizationProvider provider;

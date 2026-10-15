@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bowling_pin_painter.dart';
+import 'package:app_grafos/features/sorting/presentation/widgets/bowling_pin_painter.dart';
 
 class BowlingPinWidget extends StatelessWidget {
   final int value;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../app/app_theme.dart';
-import 'futuristic_surface.dart';
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/shared/widgets/futuristic_surface.dart';
+import 'package:app_grafos/shared/widgets/neon_icon.dart';
 
 /// Encabezado y superficie comunes a todos los módulos de algoritmos.
 class AlgorithmScaffold extends StatelessWidget {
@@ -22,33 +23,78 @@ class AlgorithmScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 12,
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: accent.withValues(alpha: 0.3)),
-              ),
-              child: Icon(icon, color: accent, size: 22),
-            ),
-            const SizedBox(width: 12),
-            Expanded(child: Text(title, overflow: TextOverflow.ellipsis)),
-          ],
+    final theme = Theme.of(context);
+    final wide = MediaQuery.sizeOf(context).width >= 700;
+    return Theme(
+      data: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: accent,
+          onPrimary: AppColors.background,
         ),
-        actions: actions,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(height: 1),
+        progressIndicatorTheme: theme.progressIndicatorTheme.copyWith(
+          color: accent,
         ),
       ),
-      body: FuturisticBackground(
-        accent: accent,
-        child: SafeArea(child: body),
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: wide ? 76 : 64,
+          titleSpacing: 12,
+          title: Row(
+            children: [
+              NeonIcon(icon: icon, accent: accent, size: 22, padding: 8),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (wide) ...[
+                      const Text(
+                        'LOGIVERSE / EXPLORA Y CREA',
+                        style: TextStyle(
+                          color: AppColors.textMuted,
+                          fontSize: 10,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                    Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: actions,
+          actionsPadding: const EdgeInsets.only(right: 12),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Container(
+              height: 1,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    accent.withValues(alpha: 0.65),
+                    AppColors.sorting.withValues(alpha: 0.20),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: FuturisticBackground(
+          accent: accent,
+          child: SafeArea(child: body),
+        ),
       ),
     );
   }
@@ -125,26 +171,42 @@ class AlgorithmWorkspace extends StatelessWidget {
               ),
           ],
         );
-        if (panel == null) return canvasArea;
-        final panelSurface = ColoredBox(
-          color: AppColors.surface,
+        final canvasSurface = ClipRRect(
+          borderRadius: BorderRadius.circular(AppLayout.radius),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.border.withValues(alpha: 0.5),
+              ),
+              borderRadius: BorderRadius.circular(AppLayout.radius),
+            ),
+            child: canvasArea,
+          ),
+        );
+        if (panel == null) return canvasSurface;
+        final panelSurface = Container(
+          margin: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(AppLayout.radius),
+            border: Border.all(color: AppColors.border),
+          ),
+          clipBehavior: Clip.antiAlias,
           child: panel!,
         );
-        if (constraints.maxWidth >= 900) {
+        if (constraints.maxWidth >= AppLayout.workspaceBreakpoint) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(child: canvasArea),
-              const VerticalDivider(width: 1),
-              SizedBox(width: 460, child: panelSurface),
+              Expanded(child: canvasSurface),
+              SizedBox(width: AppLayout.panelWidth + 24, child: panelSurface),
             ],
           );
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: canvasArea),
-            const Divider(height: 1),
+            Expanded(child: canvasSurface),
             Expanded(child: panelSurface),
           ],
         );
@@ -170,15 +232,32 @@ class AlgorithmPanelSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: highlighted ? AppColors.primarySoft : AppColors.background,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        color: highlighted
+            ? Color.alphaBlend(
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+                AppColors.background,
+              )
+            : AppColors.background.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: highlighted
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.35)
+              : AppColors.border.withValues(alpha: 0.7),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 10),
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+              height: 1.4,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 12),
           child,
         ],
       ),

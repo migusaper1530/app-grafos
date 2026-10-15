@@ -1,5 +1,5 @@
-import 'sorting_algorithm.dart';
-import 'sorting_order.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_order.dart';
 
 /// Represents the sorting problem domain model.
 /// Contains the data to be sorted and the algorithm to use.

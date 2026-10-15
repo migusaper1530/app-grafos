@@ -15,7 +15,9 @@ class AlgorithmCardGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final availableColumns = constraints.maxWidth >= 1000
+        final availableColumns = maxColumns >= 4 && constraints.maxWidth >= 1100
+            ? 4
+            : constraints.maxWidth >= 1000
             ? 3
             : constraints.maxWidth >= 600
             ? 2

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/app_theme.dart';
-import '../../domain/sorting_algorithm.dart';
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
 
 /// Informe de la ejecución, mostrado al terminar la visualización.
 class SortingComplexityWidget extends StatelessWidget {
@@ -39,12 +39,7 @@ class SortingComplexityWidget extends StatelessWidget {
         Text(
           algorithm == SortingAlgorithm.insertionSort && movements == 0
               ? 'Entrada ya ordenada: comportamiento lineal.'
-              : 'Cota temporal del algoritmo en el peor caso.',
-          style: const TextStyle(color: AppColors.textSecondary, height: 1.5),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          algorithm.complexityDescription,
+              : algorithm.complexityDescription,
           style: const TextStyle(color: AppColors.textSecondary, height: 1.5),
         ),
         const SizedBox(height: 16),
@@ -55,7 +50,6 @@ class SortingComplexityWidget extends StatelessWidget {
             Text('Elementos (n): $elementCount'),
             Text('Comparaciones: $comparisons'),
             Text('${algorithm.movementLabel}: $movements'),
-            Text('Espacio auxiliar: ${algorithm.auxiliarySpace}'),
             Text(
               'Cálculo de los pasos: '
               '${(calculationDuration.inMicroseconds / 1000).toStringAsFixed(3)} ms',
@@ -66,8 +60,7 @@ class SortingComplexityWidget extends StatelessWidget {
         const Text(
           'Big O describe cómo crece el trabajo del algoritmo. '
           'Las operaciones y el tiempo corresponden a esta ejecución; '
-          'el tiempo excluye la reproducción de la animación. '
-          'Las cotas de complejidad excluyen las copias guardadas para visualizar los pasos.',
+          'el tiempo excluye la reproducción de la animación.',
           style: TextStyle(
             color: AppColors.textMuted,
             fontSize: 12,

@@ -1,10 +1,11 @@
 import 'dart:math';
 
+import 'package:flutter_test/flutter_test.dart';
+
 import 'package:app_grafos/features/esquina_nor_oeste/domain/esquina_nor_oeste_problem.dart';
 import 'package:app_grafos/features/esquina_nor_oeste/domain/esquina_nor_oeste_result.dart';
 import 'package:app_grafos/features/esquina_nor_oeste/domain/esquina_nor_oeste_solver.dart';
 import 'package:app_grafos/features/esquina_nor_oeste/domain/optimization_mode.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 EsquinaNorOesteProblem problemFor(
   List<num> supplies,

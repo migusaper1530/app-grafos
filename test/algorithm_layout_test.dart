@@ -1,18 +1,21 @@
-import 'package:app_grafos/app/app_theme.dart';
-import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
-import 'package:app_grafos/screens/asignacion_screen.dart';
-import 'package:app_grafos/screens/esquina_nor_oeste_screen.dart';
-import 'package:app_grafos/screens/grafo_screen.dart';
-import 'package:app_grafos/screens/johnson_screen.dart';
-import 'package:app_grafos/screens/sorting_methods_screen.dart';
-import 'package:app_grafos/screens/sorting_visualization_screen.dart';
-import 'package:app_grafos/shared/widgets/algorithm_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/features/assignment/presentation/screens/asignacion_screen.dart';
+import 'package:app_grafos/features/binary_tree/presentation/screens/binary_tree_screen.dart';
+import 'package:app_grafos/features/esquina_nor_oeste/presentation/screens/esquina_nor_oeste_screen.dart';
+import 'package:app_grafos/features/graph/presentation/screens/grafo_screen.dart';
+import 'package:app_grafos/features/johnson/presentation/screens/johnson_screen.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
+import 'package:app_grafos/features/sorting/presentation/screens/sorting_methods_screen.dart';
+import 'package:app_grafos/features/sorting/presentation/screens/sorting_visualization_screen.dart';
+import 'package:app_grafos/shared/widgets/algorithm_scaffold.dart';
 
 void main() {
   final screens = <String, Widget>{
     'grafos': const GrafoScreen(),
+    'árboles': const BinaryTreeScreen(),
     'asignación': const AsignacionScreen(),
     'Johnson': const JohnsonScreen(),
     'transporte': const EsquinaNorOesteScreen(),
@@ -21,12 +24,12 @@ void main() {
       algorithm: SortingAlgorithm.selectionSort,
       initialArray: [8, 3, 5, 1],
     ),
-    'Shell Sort': const SortingVisualizationScreen(
-      algorithm: SortingAlgorithm.shellSort,
-      initialArray: [8, 3, 5, 1],
-    ),
     'Merge Sort': const SortingVisualizationScreen(
       algorithm: SortingAlgorithm.mergeSort,
+      initialArray: [8, 3, 5, 1],
+    ),
+    'Shell Sort': const SortingVisualizationScreen(
+      algorithm: SortingAlgorithm.shellSort,
       initialArray: [8, 3, 5, 1],
     ),
     'Insertion Sort': const SortingVisualizationScreen(
@@ -35,7 +38,11 @@ void main() {
     ),
   };
 
-  for (final size in [const Size(390, 844), const Size(1280, 800)]) {
+  for (final size in [
+    const Size(390, 844),
+    const Size(800, 900),
+    const Size(1280, 800),
+  ]) {
     for (final entry in screens.entries) {
       testWidgets('${entry.key} sin desbordamiento a ${size.width}', (
         tester,

@@ -1,4 +1,4 @@
-import 'optimization_mode.dart';
+import 'package:app_grafos/features/esquina_nor_oeste/domain/optimization_mode.dart';
 
 /// Elemento que participa como origen (oferta) o destino (demanda).
 class EsquinaNorOesteItem {

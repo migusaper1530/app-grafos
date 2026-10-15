@@ -1,14 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:app_grafos/app/app_theme.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_order.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_problem.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_result.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_solver.dart';
 import 'package:app_grafos/features/sorting/domain/sorting_step.dart';
-import 'package:flutter/foundation.dart';
-
-import '../../../../app/app_theme.dart';
 
 /// Manages the state of sorting visualization
 class SortingVisualizationProvider extends ChangeNotifier {
@@ -27,6 +27,8 @@ class SortingVisualizationProvider extends ChangeNotifier {
     required List<int> array,
     required this.algorithm,
     SortingOrder order = SortingOrder.ascending,
+    int initialStepIndex = 0,
+    double initialSpeed = 1,
   }) : _originalArray = List<int>.unmodifiable(array) {
     _problem = SortingProblem(
       originalArray: _originalArray,
@@ -34,6 +36,15 @@ class SortingVisualizationProvider extends ChangeNotifier {
       order: order,
     );
     _initialize();
+    if (initialStepIndex < 0 ||
+        initialStepIndex >= _result.stepCount ||
+        !initialSpeed.isFinite ||
+        initialSpeed < 0.5 ||
+        initialSpeed > 2) {
+      throw ArgumentError('El paso o la velocidad inicial no son válidos.');
+    }
+    _currentStepIndex = initialStepIndex;
+    _speed = initialSpeed;
   }
 
   void _initialize() {
@@ -47,6 +58,7 @@ class SortingVisualizationProvider extends ChangeNotifier {
 
   // Getters
   SortingOrder get order => _problem.order;
+  List<int> get originalArray => _originalArray;
   Duration get calculationDuration => _calculationDuration;
   String get executionComplexity =>
       algorithm == SortingAlgorithm.insertionSort && totalSwaps == 0

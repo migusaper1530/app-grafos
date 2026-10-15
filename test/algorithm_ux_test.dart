@@ -1,12 +1,14 @@
-import 'package:app_grafos/app/app_theme.dart';
-import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
-import 'package:app_grafos/screens/menu_principal_screen.dart';
-import 'package:app_grafos/screens/sorting_visualization_screen.dart';
-import 'package:app_grafos/shared/widgets/algorithm_card_grid.dart';
-import 'package:app_grafos/shared/widgets/algorithm_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:app_grafos/app/app_theme.dart';
+import 'package:app_grafos/features/catalog/presentation/screens/menu_principal_screen.dart';
+import 'package:app_grafos/features/graph/presentation/screens/grafo_screen.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_algorithm.dart';
+import 'package:app_grafos/features/sorting/presentation/screens/sorting_visualization_screen.dart';
+import 'package:app_grafos/shared/widgets/algorithm_card_grid.dart';
+import 'package:app_grafos/shared/widgets/algorithm_scaffold.dart';
 
 void main() {
   for (final size in [
@@ -30,7 +32,7 @@ void main() {
           home: const MenuPrincipalScreen(),
         ),
       );
-      // The menu has an animated background that runs continuously.
+      // Verify pointer navigation on compact layouts and keyboard activation on desktop.
       await tester.pump(const Duration(seconds: 2));
       await tester.pump(const Duration(seconds: 1));
       expect(tester.takeException(), isNull);
@@ -38,15 +40,18 @@ void main() {
         of: find.byType(AlgorithmCardGrid),
         matching: find.byType(InkWell),
       );
-      expect(cards, findsNWidgets(5));
+      expect(cards, findsNWidgets(6));
       if (size.width >= 1000) {
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.sendKeyEvent(LogicalKeyboardKey.enter);
       } else {
+        await tester.ensureVisible(find.text('Redes y Grafos'));
+        await tester.pumpAndSettle();
         await tester.tap(find.text('Redes y Grafos'));
       }
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(GrafoScreen), findsOneWidget);
       expect(find.byType(AlgorithmScaffold), findsOneWidget);
       expect(find.text('Redes y Grafos'), findsOneWidget);
       expect(tester.takeException(), isNull);

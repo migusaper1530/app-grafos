@@ -1,4 +1,4 @@
-import 'sorting_step.dart';
+import 'package:app_grafos/features/sorting/domain/sorting_step.dart';
 
 /// Result of solving a sorting problem.
 /// Contains all steps needed to visualize the sorting process.
